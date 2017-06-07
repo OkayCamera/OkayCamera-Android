@@ -1,11 +1,60 @@
+<!--
+  ~ Copyright (c) 2017, Jianguo Yang.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+
+        <!-- TODO: use defined animation , but this way is not best way so use code way
+        <item name="android:windowAnimationStyle">@style/windowAnim</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/LunchAnim</item>
+        -->
     </style>
 
+    <!-- depread app lunch Animations -->
+    <style name="LunchAnim" parent="@android:style/Animation.Activity">
+        <!-- app lunch anim -->
+        <item name="android:activityOpenEnterAnimation">@anim/anim_app_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_app_open_exit</item>
+
+        <!--app exit anim -->
+        <item name="android:activityCloseEnterAnimation">@anim/anim_app_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_app_close_exit</item>
+
+        <item name="android:taskOpenEnterAnimation">@anim/anim_app_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/anim_app_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/anim_app_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/anim_app_close_exit</item>
+
+        <item name="android:taskToFrontEnterAnimation">@anim/anim_app_open_enter</item>
+        <item name="android:taskToFrontExitAnimation">@anim/anim_app_open_exit</item>
+        <item name="android:taskToBackEnterAnimation">@anim/anim_app_close_enter</item>
+        <item name="android:taskToBackExitAnimation">@anim/anim_app_close_exit</item>
+    </style>
+
+    <style name="windowAnim" parent="@android:style/Animation.Translucent">
+        <item name="android:windowEnterAnimation">@anim/anim_app_open_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_app_close_exit</item>
+    </style>
 </resources>

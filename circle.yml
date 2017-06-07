@@ -12,7 +12,7 @@ dependencies:
     - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/25.0.0" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
     # Android ndk
     - if [ ! -e "/usr/local/android-sdk-linux/android-ndk-r15" ]; then wget https://dl.google.com/android/repository/android-ndk-r15-beta2-windows-x86_64.zip
-      && unzip -p android-ndk-r15-beta2-windows-x86_64.zip; fi
+      && unzip android-ndk-r15-beta2-windows-x86_64.zip; fi
     - if [ ! -d "android-ndk-r15-beta2" ]; then mv android-ndk-r15-beta2/* /usr/local/android-sdk-linux/ && rm armeabi-v7a-25_r04.zip; fi
 
     # Android 25 ARM Google APIs system Image

@@ -13,10 +13,10 @@ dependencies:
     # Android ndk
     - if [ ! -e "/usr/local/android-sdk-linux/android-ndk-r15" ]; then wget https://dl.google.com/android/repository/android-ndk-r15-beta2-windows-x86_64.zip
       && unzip -p android-ndk-r15-beta2-windows-x86_64.zip; fi
-    - if [ ! -d "android-ndk-r15-beta2"]; then mv android-ndk-r15-beta2/* /usr/local/android-sdk-linux/ && rm armeabi-v7a-25_r04.zip; fi
+    - if [ ! -d "android-ndk-r15-beta2" ]; then mv android-ndk-r15-beta2/* /usr/local/android-sdk-linux/ && rm armeabi-v7a-25_r04.zip; fi
 
     # Android 25 ARM Google APIs system Image
-    - if [ ! -d "/usr/local/android-sdk-linux/system-images/android-25/google_apis/armeabi-v7a" ]; then echo y | android update sdk --no-ui --all --filter "sys-img-armeabi-v7a-google_apis-25"
+    - if [ ! -d "/usr/local/android-sdk-linux/system-images/android-25/google_apis/armeabi-v7a" ]; then echo y | android update sdk --no-ui --all --filter "sys-img-armeabi-v7a-google_apis-25"; fi
     # Create the android 25 AVD
     - echo no | android create avd -n circleci-android25-googleapis -t 'android-25' --abi google_apis/armeabi-v7a
     # software rendering is broken in revision 10, we'll use revision 08
@@ -28,11 +28,11 @@ dependencies:
 
     - mkdir "$ANDROID_HOME/licenses"
     - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-  
+
   override:
     - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
- cache_directories:
+  cache_directories:
     - ~/.gradle
     - /usr/local/android-sdk-linux/platforms/android-25
     - /usr/local/android-sdk-linux/tools
@@ -56,7 +56,7 @@ dependencies:
       - adb shell input keyevent 82
     # run tests against the emulator and generate report and limit gradle's memory usage
     #  - ./gradlew clean androidTest
-      
+
     # Release
       - ./gradlew clean assembleRelease
     # copy the build outputs to artifacts

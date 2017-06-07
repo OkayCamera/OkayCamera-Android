@@ -13,7 +13,7 @@ dependencies:
     # Android ndk
     - if [[ ! -e "/usr/local/android-sdk-linux/android-ndk-r15" ]]; then wget https://dl.google.com/android/repository/android-ndk-r15-beta2-windows-x86_64.zip
       && unzip android-ndk-r15-beta2-windows-x86_64.zip
-      && mv android-ndk-r15/* /usr/local/android-sdk-linux/android-ndk-r15
+      && mv android-ndk-r15-beta2/* /usr/local/android-sdk-linux/
       && rm armeabi-v7a-25_r04.zip; fi
 
     # Android 25 ARM Google APIs system Image

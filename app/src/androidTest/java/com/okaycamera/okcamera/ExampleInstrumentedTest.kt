@@ -7,6 +7,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import android.view.WindowManager
+import org.junit.Before
+import android.support.test.rule.ActivityTestRule
+import org.junit.Rule
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -21,5 +25,19 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
         assertEquals("com.okaycamera.okcamera", appContext.packageName)
+    }
+
+    @get:Rule
+    public var mActivityRule = ActivityTestRule<Main>(Main::class.java)
+
+    @Before
+    fun setUp() {
+        val activity = mActivityRule.getActivity()
+        val wakeUpDevice = Runnable {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+        activity.runOnUiThread(wakeUpDevice)
     }
 }

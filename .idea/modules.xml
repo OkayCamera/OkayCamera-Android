@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OkayCamera-Android.iml" filepath="$PROJECT_DIR$/OkayCamera-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/okcamera.iml" filepath="$PROJECT_DIR$/okcamera.iml" />
     </modules>
   </component>
 </project>

@@ -14,8 +14,7 @@ dependencies:
     - if [[ ! -e "/usr/local/android-sdk-linux/android-ndk-r15" ]]; then wget https://dl.google.com/android/repository/android-ndk-r15-beta2-windows-x86_64.zip
       && unzip android-ndk-r15-beta2-windows-x86_64.zip;
       && mv android-ndk/* /usr/local/android-sdk-linux/android-ndk-r15;
-      && rm armeabi-v7a-25_r04.zip;
-    fi
+      && rm armeabi-v7a-25_r04.zip; fi
 
     # Android 25 ARM Google APIs system Image
     - if [ ! -d "/usr/local/android-sdk-linux/system-images/android-25/google_apis/armeabi-v7a" ]; then echo y | android update sdk --no-ui --all --filter "sys-img-armeabi-v7a-google_apis-25"

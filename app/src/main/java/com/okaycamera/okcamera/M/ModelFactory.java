@@ -13,22 +13,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.okaycamera.okcamera.manager
 
-object FunManager{
-    /**
-     * whether open lunch animation
-     */
-    fun useLunchAnim():Boolean{
-        return true;
-    }
+package com.okaycamera.okcamera.M;
 
-    /**
-     * which logger util has been used by this application
-     * should not been modified by dynamic
-     */
-    fun useWhichLogger():Int {
-        // use android.util.Log with default
-        return 0;
-    }
+public class ModelFactory {
 }

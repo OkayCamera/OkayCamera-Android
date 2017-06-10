@@ -93,7 +93,7 @@ class Main : AppCompatActivity() {
      */
     fun doLunchAnim(isStart: Boolean) {
         // fixme: click home quit application the animation will not start
-        if (FunManager().useLunchAnim()){
+        if (FunManager.useLunchAnim()){
             if (isStart) {
                 overridePendingTransition(R.anim.anim_app_open_enter, R.anim.anim_app_open_exit)
             } else {

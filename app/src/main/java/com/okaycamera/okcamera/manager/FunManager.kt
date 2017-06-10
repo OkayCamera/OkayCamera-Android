@@ -15,11 +15,20 @@
  */
 package com.okaycamera.okcamera.manager
 
-class FunManager{
+object FunManager{
     /**
      * whether open lunch animation
      */
     fun useLunchAnim():Boolean{
         return true;
+    }
+
+    /**
+     * which logger util has been used by this application
+     * should not been modified by dynamic
+     */
+    fun useWhichLogger():Int {
+        // use android.util.Log with default
+        return 0;
     }
 }

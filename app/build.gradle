@@ -53,6 +53,9 @@ dependencies {
     // Optional -- Hamcrest library
     // androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
 
+    // event bus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
     /**
      *  Optional -- UI testing with Espresso
      *

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.util.log
+package com.okaycamera.okcamera.core.log
 
 import android.util.Log
 import com.okaycamera.okcamera.manager.FunManager

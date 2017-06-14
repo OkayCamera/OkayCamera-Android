@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.V;
+package com.okaycamera.okcamera.core.M;
 
-abstract class BaseView implements IView {
+public abstract class BaseModel implements IModel{
 }

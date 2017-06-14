@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.V.activity;
+package com.okaycamera.okcamera.core.V.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

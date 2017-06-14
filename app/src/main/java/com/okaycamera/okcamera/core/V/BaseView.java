@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera;
+package com.okaycamera.okcamera.core.V;
 
-public final class MVVM {
-    public interface IView{}
-    public interface IViewModel{}
-    public interface IModel{}
+abstract class BaseView implements IView {
 }

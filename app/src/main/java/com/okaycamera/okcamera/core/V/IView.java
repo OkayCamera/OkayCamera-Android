@@ -14,7 +14,9 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.M;
+package com.okaycamera.okcamera.core.V;
 
-public class VideoModel extends BaseModel{
+import com.okaycamera.okcamera.core.MVVM;
+
+interface IView extends MVVM.IView {
 }

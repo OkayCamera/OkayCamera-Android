@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.M;
+package com.okaycamera.okcamera.service;
 
-public class ModelFactory {
+public class ImageSaverService {
 }

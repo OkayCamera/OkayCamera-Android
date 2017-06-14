@@ -14,9 +14,5 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.V;
+package com.okaycamera.okcamera.service
 
-import com.okaycamera.okcamera.MVVM;
-
-interface IView extends MVVM.IView {
-}

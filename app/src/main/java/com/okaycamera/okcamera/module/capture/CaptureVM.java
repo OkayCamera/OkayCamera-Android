@@ -14,7 +14,9 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.VM;
+package com.okaycamera.okcamera.module.capture;
+
+import com.okaycamera.okcamera.core.VM.BaseViewModel;
 
 public class CaptureVM extends BaseViewModel {
 }

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.util.log
+package com.okaycamera.okcamera.core.log
 
 internal interface ILogger {
 

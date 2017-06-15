@@ -17,7 +17,7 @@ ext {
     //Libraries
     //kotlin_version = '1.1.2-5'
     appcompat_version = '25.3.1'
-    constraintLayout_version = 'constraint-layout:1.0.2'
+    constraintLayout_version = '1.0.2'
     anko_version = '0.10.1'
     enventbus_version = '3.0.0'
     rxJavaVersion = '2.1.0'
@@ -48,7 +48,7 @@ ext {
     appDependencies = [
             kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
             appcompat:          "com.android.support:appcompat-v7:$appcompat_version",
-            constraintLayout:   "com.android.support.constraint:constraint-layout:${constraintLayout_version}",
+            constraintLayout:   "com.android.support.constraint:constraint-layout:$constraintLayout_version",
             anko:               "org.jetbrains.anko:anko:$anko_version",
             enventbus:          "org.greenrobot:eventbus:$enventbus_version",
             daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",

@@ -17,7 +17,7 @@ ext {
     //Libraries
     //kotlin_version = '1.1.2-5'
     appcompat_version = '25.3.1'
-    constraintLayout_version = '1.0.2'
+    constraintLayout_version = 'constraint-layout:1.0.2'
     anko_version = '0.10.1'
     enventbus_version = '3.0.0'
     rxJavaVersion = '2.1.0'

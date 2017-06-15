@@ -39,7 +39,7 @@ dependencies:
     #- mv armeabi-v7a/* /usr/local/android-sdk-linux/system-images/android-25/google_apis/armeabi-v7a
     #- rm armeabi-v7a-25_r04.zip
 
-    - mkdir "$ANDROID_HOME/licenses"
+    - mkdir -p "$ANDROID_HOME/licenses/"
     - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 
   override:

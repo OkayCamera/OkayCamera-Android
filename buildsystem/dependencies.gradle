@@ -1,0 +1,85 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = "25.0.3"
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
+    androidApplicationId = 'com.okaycamera.okcamera'
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+
+    //Libraries
+    //kotlin_version = '1.1.2-5'
+    appcompat_version = '25.3.1'
+    constraintLayout_version = '1.0.2'
+    anko_version = '0.10.1'
+    enventbus_version = '3.0.0'
+    rxJavaVersion = '2.1.0'
+    daggerVersion = '2.8'
+    butterKnifeVersion = '7.0.1'
+    recyclerViewVersion = '21.0.3'
+    rxAndroidVersion = '2.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    gsonVersion = '2.3'
+    okHttpVersion = '2.5.0'
+    androidAnnotationsVersion = '21.0.3'
+    arrowVersion = '1.0.0'
+
+    //Testing
+    robolectricVersion = '3.1.1'
+    uiautomator_version = 'uiautomator-v18:2.1.2'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '2.2.15'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.2'
+    testingSupportLibVersion = '0.1'
+
+    //Development
+    leakCanaryVersion = '1.3.1'
+
+    appDependencies = [
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            appcompat:          "com.android.support:appcompat-v7:$appcompat_version",
+            constraintLayout:   "com.android.support.constraint:constraint-layout:${constraintLayout_version}",
+            anko:               "org.jetbrains.anko:anko:$anko_version",
+            enventbus:          "org.greenrobot:eventbus:$enventbus_version",
+            daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger:             "com.google.dagger:dagger:${daggerVersion}",
+            butterKnife:        "com.jakewharton:butterknife:${butterKnifeVersion}",
+            recyclerView:       "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            okHttp:             "com.squareup.okhttp:okhttp:${okHttpVersion}",
+            gson:               "com.google.code.gson:gson:${gsonVersion}",
+            rxJava:             "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}"
+    ]
+
+    appTestDependencies = [
+            assertj:            "org.assertj:assertj-core:${assertJVersion}",
+            junit:              "junit:junit:${jUnitVersion}",
+            robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+            uiautomator:        "com.android.support.test.uiautomator:$uiautomator_version",
+            runner:             "com.android.support.test:runner:0.5",
+            rules:              'com.android.support.test:rules:0.5',
+            hamcrest:           "org.hamcrest:hamcrest-library:1.3",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+            dexmaker:           "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito:    "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+    ]
+
+    developmentDependencies = [
+            leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+    ]
+}

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.util
+package com.okaycamera.okcamera.core.util
 
 import android.content.Context
 import android.os.Environment.getExternalStorageDirectory as ESDIR

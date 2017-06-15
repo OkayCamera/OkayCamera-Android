@@ -14,8 +14,14 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.command;
+package com.okaycamera.okcamera.core.command
 
-public interface Action0{
-    public void call();
+/**
+ * Represents a function with zero arguments.
+ */
+interface Func0<R> : java.util.concurrent.Callable<R> {
+    /**
+     * call in interface java.util.concurrent.Callable < R >
+     */
+    override fun call(): R
 }

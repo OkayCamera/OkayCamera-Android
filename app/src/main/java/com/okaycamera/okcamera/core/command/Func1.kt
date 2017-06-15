@@ -14,12 +14,11 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.command;
+package com.okaycamera.okcamera.core.command
 
 /**
- * A one-argument action.
- * @param <T>
+ * Represents a function with one argument.
  */
-public interface Action1<T> {
-    void call(T t);
+interface Func1<T, R> {
+    fun call(t: T): R
 }

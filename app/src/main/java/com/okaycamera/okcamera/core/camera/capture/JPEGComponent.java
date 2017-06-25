@@ -14,4 +14,11 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera
+package com.okaycamera.okcamera.core.camera.capture;
+import static android.hardware.camera2.CaptureRequest.JPEG_GPS_LOCATION;
+import static android.hardware.camera2.CaptureRequest.JPEG_ORIENTATION;
+import static android.hardware.camera2.CaptureRequest.JPEG_QUALITY;
+import static android.hardware.camera2.CaptureRequest.JPEG_THUMBNAIL_QUALITY;
+import static android.hardware.camera2.CaptureRequest.JPEG_THUMBNAIL_SIZE;
+public class JPEGComponent {
+}

@@ -41,6 +41,10 @@ ext {
     dexmakerVersion = '1.0'
     espressoVersion = '2.2'
     testingSupportLibVersion = '0.1'
+    kotlinStdlibVersion =  '1.1.2-5'
+    kotlinJunitVersion =  '1.0.6'
+    kotlinMockitoVersion =  "1.1.0"
+    kluentVersion =  '1.14'
 
     //Development
     leakCanaryVersion = '1.3.1'
@@ -64,6 +68,7 @@ ext {
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}"
     ]
 
+
     appTestDependencies = [
             assertj:            "org.assertj:assertj-core:${assertJVersion}",
             junit:              "junit:junit:${jUnitVersion}",
@@ -77,6 +82,11 @@ ext {
             dexmakerMockito:    "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
             espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
             testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+            // for kotlin test
+            kotlinStdlib:      "org.jetbrains.kotlin:kotlin-stdlib:${kotlinStdlibVersion}",
+            kotlinJunit:  "org.jetbrains.kotlin:kotlin-test-junit:${kotlinJunitVersion}",
+            kotlinMockito:     "com.nhaarman:mockito-kotlin:${kotlinMockitoVersion}",
+            kluent:             "org.amshove.kluent:kluent:${kluentVersion}",
     ]
 
     developmentDependencies = [

@@ -11,7 +11,7 @@ android {
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
 
-        applicationId "com.okaycamera.okcamera"
+        applicationId globalConfiguration["androidApplicationId"]
         versionCode globalConfiguration["androidVersionCode"]
         versionName globalConfiguration["androidVersionName"]
         testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
@@ -60,7 +60,18 @@ android {
     }
 }
 
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test') || !sourceSet.name.startsWith('androidTest')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}
+
 dependencies {
+    def appDependencies = rootProject.ext.appDependencies
+    def appTestDependencies = rootProject.ext.appTestDependencies
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile appDependencies.kotlin
     compile appDependencies.appcompat
@@ -86,6 +97,8 @@ dependencies {
     androidTestCompile appTestDependencies.rules // dependency
 
     // FOR Local Unit Tests
-    testCompile appTestDependencies.junit
-    testCompile appTestDependencies.mockito // Optional
+    testCompile appTestDependencies.kotlinStdlib
+    testCompile appTestDependencies.kotlinJunit
+    testCompile appTestDependencies.kotlinMockito
+    testCompile appTestDependencies.kluent
 }

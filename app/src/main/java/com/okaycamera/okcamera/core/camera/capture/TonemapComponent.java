@@ -70,6 +70,10 @@ public class TonemapComponent implements IComponent {
         mBuilder.set(TONEMAP_MODE, mode);
     }
 
+    public OkCaptureRequestBuilder build() {
+        return mBuilder;
+    }
+
     @Override
     public OkCaptureRequestBuilder submit() {
             switch (getCurrentModeValue()) {

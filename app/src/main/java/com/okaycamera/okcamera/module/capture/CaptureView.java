@@ -16,43 +16,11 @@
 
 package com.okaycamera.okcamera.module.capture;
 
-import com.okaycamera.okcamera.core.M.BaseModel;
-import com.okaycamera.okcamera.core.M.IModel;
-import com.okaycamera.okcamera.core.MVVM;
+import android.os.Bundle;
 
-public class CaptureModel extends BaseModel {
-    @Override
-    public IModel initModel(MVVM.IViewModel vm) {
-        return null;
-    }
+import com.okaycamera.okcamera.core.V.BaseView;
 
-    @Override
-    public void destroyModel() {
+public class CaptureView extends BaseView {
 
-    }
 
-    @Override
-    public void loadVM() {
-
-    }
-
-    @Override
-    public void createSession() {
-
-    }
-
-    @Override
-    public void buildRequest(int type) {
-
-    }
-
-    @Override
-    public void process() {
-
-    }
-
-    @Override
-    public void saveFinalData() {
-
-    }
 }

@@ -17,4 +17,10 @@
 package com.okaycamera.okcamera.core.M;
 
 public abstract class BaseModel implements IModel{
+
+    @Override
+    public void loadLib() {
+        // ignore
+    }
+
 }

@@ -14,11 +14,22 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera;
+package com.okaycamera.okcamera.core.camera.framework;
 
-public class Application extends android.app.Application {
-    @Override public void onCreate() {
-        super.onCreate();
+import android.content.Context;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 
+public class OkCameraManager {
+    CameraManager mCameraManager;
+
+    public OkCameraManager(Context context) {
+        mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     }
+
+    public String[] getCameraList() throws CameraAccessException {
+        return mCameraManager.getCameraIdList();
+    }
+
+
 }

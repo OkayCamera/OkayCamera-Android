@@ -18,5 +18,18 @@ package com.okaycamera.okcamera.core.M;
 
 import com.okaycamera.okcamera.core.MVVM;
 
-interface IModel extends MVVM.IModel{
+public interface IModel extends MVVM.IModel{
+    /* life cycle */
+    IModel initModel(MVVM.IViewModel vm);
+    void destroyModel();
+
+    /* event process */
+    void loadVM();
+    void createSession();
+    void buildRequest(int type);
+    void process();
+    void saveFinalData();
+
+    /* other */
+    void loadLib();
 }

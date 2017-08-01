@@ -19,10 +19,14 @@ package com.okaycamera.okcamera.core.log
 import android.util.Log
 import com.okaycamera.okcamera.manager.FunManager
 
+/**
+ * Usage:
+ * Logger.d(TAG, "your debug message");
+ */
 class Logger : ILogger {
 
     internal val whichLogger = FunManager.useWhichLogger()
-    val DEFAULT = 0
+    val DEFAULT = 0 // android.util.log
 
 
     override fun v(tag: String, msg: String) {

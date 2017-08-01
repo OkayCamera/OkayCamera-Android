@@ -16,5 +16,7 @@
 
 package com.okaycamera.okcamera.core.V;
 
-abstract class BaseView implements IView {
+import com.okaycamera.okcamera.core.V.activity.BaseActivity;
+
+public abstract class BaseView implements IView {
 }

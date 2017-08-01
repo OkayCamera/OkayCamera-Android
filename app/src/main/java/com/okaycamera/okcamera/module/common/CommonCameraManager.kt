@@ -16,6 +16,6 @@
 
 package com.okaycamera.okcamera.module.common
 
-class CameraManager {
+class CommonCameraManager {
 
 }

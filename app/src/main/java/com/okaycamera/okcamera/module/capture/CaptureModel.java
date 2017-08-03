@@ -16,33 +16,54 @@
 
 package com.okaycamera.okcamera.module.capture;
 
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CaptureRequest;
+import android.support.annotation.NonNull;
+import android.view.Surface;
+
 import com.okaycamera.okcamera.core.M.BaseModel;
 import com.okaycamera.okcamera.core.M.IModel;
 import com.okaycamera.okcamera.core.MVVM;
 
+import java.util.List;
+
 public class CaptureModel extends BaseModel {
+    List<Surface> mSurfaces;
+
     @Override
-    public IModel initModel(MVVM.IViewModel vm) {
+    public IModel initModel() {
         return null;
     }
 
     @Override
-    public void destroyModel() {
+    public void createSession() throws CameraAccessException {
+        mCameraDevice.createCaptureSession(mSurfaces, new CameraCaptureSession.StateCallback() {
+            @Override
+            public void onConfigured(@NonNull CameraCaptureSession session) {
 
-    }
+            }
 
-    @Override
-    public void loadVM() {
+            @Override
+            public void onConfigureFailed(@NonNull CameraCaptureSession session) {
 
-    }
-
-    @Override
-    public void createSession() {
-
+            }
+        }, null);
     }
 
     @Override
     public void buildRequest(int type) {
+        try {
+            CaptureRequest.Builder builder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void capture() {
 
     }
 

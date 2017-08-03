@@ -16,20 +16,23 @@
 
 package com.okaycamera.okcamera.core.M;
 
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CaptureRequest;
+
 import com.okaycamera.okcamera.core.MVVM;
 
 public interface IModel extends MVVM.IModel{
     /* life cycle */
-    IModel initModel(MVVM.IViewModel vm);
-    void destroyModel();
+    IModel initModel();
 
     /* event process */
-    void loadVM();
-    void createSession();
+    void loadVM(MVVM.IViewModel viewModel);
+    void createSession() throws CameraAccessException;
+    CaptureRequest buildPreviewRequest() throws CameraAccessException;
     void buildRequest(int type);
     void process();
     void saveFinalData();
 
     /* other */
-    void loadLib();
+    void destroyModel();
 }

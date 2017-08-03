@@ -20,8 +20,13 @@ import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OkCameraManager {
-    CameraManager mCameraManager;
+    private CameraManager mCameraManager;
+    private List<CameraIdListCallback> mCameraIdListCallbackList = new ArrayList<>();
+    private String[] mCameraList;
 
     public OkCameraManager(Context context) {
         mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
@@ -31,5 +36,19 @@ public class OkCameraManager {
         return mCameraManager.getCameraIdList();
     }
 
+    public void registerCameraIdListCallback(CameraIdListCallback callback) {
+        this.mCameraIdListCallbackList.add(callback);
+    }
+
+
+    public void unregisterCameraIdListCallback(CameraIdListCallback callback) {
+        if (mCameraIdListCallbackList.contains(callback)) {
+            mCameraIdListCallbackList.remove(callback);
+        }
+    }
+
+    public interface CameraIdListCallback {
+        public String[] onCameraIdListChanged();
+    }
 
 }

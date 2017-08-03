@@ -25,12 +25,21 @@ import java.util.List;
 public class OkCaptureRequestBuilder {
     private CaptureRequest.Builder mBuilder;
 
-    public  OkCaptureRequestBuilder(@NonNull CaptureRequest.Builder mBuilder) {
-        this.mBuilder = mBuilder;
+    public  OkCaptureRequestBuilder(@NonNull CaptureRequest.Builder builder) {
+        this.mBuilder = builder;
     }
 
-    public  OkCaptureRequestBuilder(@NonNull CaptureRequest.Builder mBuilder, Object tag) {
-        this.mBuilder = mBuilder;
+    public  OkCaptureRequestBuilder(@NonNull CaptureRequest.Builder builder, Object tag) {
+        this.mBuilder = builder;
+        this.setTag(tag);
+    }
+
+    public  OkCaptureRequestBuilder(@NonNull OkCaptureRequestBuilder builder) {
+        this.mBuilder = builder.mBuilder;
+    }
+
+    public  OkCaptureRequestBuilder(@NonNull OkCaptureRequestBuilder builder, Object tag) {
+        this.mBuilder = builder.mBuilder;
         this.setTag(tag);
     }
 

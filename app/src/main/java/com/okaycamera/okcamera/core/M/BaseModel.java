@@ -16,11 +16,42 @@
 
 package com.okaycamera.okcamera.core.M;
 
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
+import android.support.annotation.CallSuper;
+import android.view.Surface;
+
+import com.okaycamera.okcamera.core.MVVM;
+import com.okaycamera.okcamera.core.camera.framework.OkCaptureRequestBuilder;
+
 public abstract class BaseModel implements IModel{
+    /**
+     * the camera device instance which to create different session dependence different model
+     */
+    public CameraDevice mCameraDevice;
+    public Surface mPreviewSurface;
+    public MVVM.IViewModel mViewModel;
 
     @Override
-    public void loadLib() {
-        // ignore
+    public void loadVM(MVVM.IViewModel viewModel) {
+        mViewModel = viewModel;
     }
 
+    @Override
+    @CallSuper
+    public void destroyModel() {
+        if (mCameraDevice != null ) {
+            mCameraDevice.close();
+        }
+    }
+
+    public CaptureRequest buildPreviewRequest() throws CameraAccessException {
+        CaptureRequest.Builder builder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+        OkCaptureRequestBuilder okBuilder = new OkCaptureRequestBuilder(builder);
+        return okBuilder.addTarget(mPreviewSurface)
+                .build();
+    }
 }

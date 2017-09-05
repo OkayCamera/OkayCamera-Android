@@ -37,6 +37,8 @@ class Main : AppCompatActivity() {
         // keep screen bright
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_main)
+        // use databinding framework
+//        setContentView(this, R.layout.activity_main)
         // Example of a call to a native method
         initView();
     }
@@ -79,6 +81,8 @@ class Main : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         setScreenBrightness(WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL)
+
+//        OkCameraManager.instance().sendMessage()
     }
 
     override fun onPause() {

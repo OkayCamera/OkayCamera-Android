@@ -14,8 +14,28 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.common
+package com.okaycamera.okcamera.core.beans;
 
-class CameraManager {
+public class UserBean {
+    private String userName;
+    private String userID;
 
+    public UserBean() {
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 }

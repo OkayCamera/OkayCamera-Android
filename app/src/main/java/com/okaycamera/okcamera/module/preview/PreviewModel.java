@@ -14,14 +14,14 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.settings;
+package com.okaycamera.okcamera.module.preview;
 
 import android.hardware.camera2.CameraAccessException;
 
 import com.okaycamera.okcamera.core.M.BaseModel;
 import com.okaycamera.okcamera.core.M.IModel;
 
-public class SettingModel extends BaseModel {
+public class PreviewModel extends BaseModel{
     @Override
     public IModel initModel() {
         return null;

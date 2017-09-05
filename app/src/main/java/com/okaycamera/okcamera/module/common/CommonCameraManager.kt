@@ -14,36 +14,8 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.settings;
+package com.okaycamera.okcamera.module.common
 
-import android.hardware.camera2.CameraAccessException;
+class CommonCameraManager {
 
-import com.okaycamera.okcamera.core.M.BaseModel;
-import com.okaycamera.okcamera.core.M.IModel;
-
-public class SettingModel extends BaseModel {
-    @Override
-    public IModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void createSession() throws CameraAccessException {
-
-    }
-
-    @Override
-    public void buildRequest(int type) {
-
-    }
-
-    @Override
-    public void process() {
-
-    }
-
-    @Override
-    public void saveFinalData() {
-
-    }
 }

@@ -14,27 +14,20 @@
  *  limitations under the License.
  */
 
-package com.example.databindingdemo
+package com.example.databindingdemo;
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import org.junit.Test;
 
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import org.junit.Assert.*
+import static org.junit.Assert.*;
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * Example local unit test, which will execute on the development machine (host).
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+public class ExampleUnitTest {
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.example.databindingdemo", appContext.packageName)
+    public void addition_isCorrect() throws Exception {
+        assertEquals(4, 2 + 2);
     }
 }

@@ -58,6 +58,22 @@ android {
         disable 'IconDensities'             //For testing purpose. This is safe to remove.
         disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
     }
+
+    dataBinding {
+        enabled = true
+    }
+    //kapt
+    kapt {
+        generateStubs = true
+    }
+}
+
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test') || !sourceSet.name.startsWith('androidTest')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
 }
 
 afterEvaluate {
@@ -80,6 +96,7 @@ dependencies {
     compile appDependencies.enventbus
     compile appDependencies.rxJava
 
+    kapt 'com.android.databinding:compiler:2.3.2'
     ////////////////////////////////////////////////////////////////////////////////////////////
     /**
      *  Optional -- UI testing with Espresso

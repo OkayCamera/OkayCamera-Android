@@ -16,14 +16,39 @@
 
 package com.example.databindingdemo;
 
+import android.databinding.BindingBuildInfo;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
+import com.example.databindingdemo.databinding.ActivityMainBinding;
+import com.example.databindingdemo.model.UserInfo;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
+    private UserInfo userInfo;
+    private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView( R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+//        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        userInfo = new UserInfo("yangjianguo", "24", "1991-05-06");
+        binding.setUserInfo(userInfo);
+        binding.setClickListener(new ClickListener());
+    }
+
+    public class ClickListener{
+
+        public void onClick() {
+            int age = Integer.parseInt( userInfo.userAge) ;
+            age++;
+            Log.d(TAG, "onClick: age = " + age);
+            userInfo.userAge = age + "";
+            binding.setUserInfo(userInfo);
+        }
     }
 }

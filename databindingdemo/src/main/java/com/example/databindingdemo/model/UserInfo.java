@@ -16,9 +16,13 @@
 
 package com.example.databindingdemo.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.util.Log;
 
-public class UserInfo {
+import com.example.databindingdemo.BR;
+
+public class UserInfo extends BaseObservable {
     public String userName;
     public String userAge;
     public String userBirthday;
@@ -30,6 +34,7 @@ public class UserInfo {
         this.userBirthday = userGender;
     }
 
+    @Bindable
     public String getUserName() {
         Log.d(TAG, "getUserName: " + userName);
         return userName;
@@ -38,5 +43,7 @@ public class UserInfo {
     public void setUserName(String userName) {
         Log.d(TAG, "setUserName: " + userName);
         this.userName = userName;
+        // 如果该数据发生变化，则会通知更新该值对应的组件
+        notifyPropertyChanged(BR.userName);
     }
 }

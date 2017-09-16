@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2017, Jianguo Yang.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,26 +13,18 @@
   ~  See the License for the specific language governing permissions and
   ~  limitations under the License.
   -->
-<layout  xmlns:android="http://schemas.android.com/apk/res/android">
-    <data >
-        <variable name="userName" type="String"/>
-        <variable name="detailInfo" type="com.example.databindingdemo.model.DetailedInformation"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="testText" type="String"/>
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{`Hello ` + userName + `:\n`}"/>
+        android:layout_height="match_parent">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:text="@{detailInfo.userName + detailInfo.userAge}"/>
-
+            android:text="@{testText}"/>
     </LinearLayout>
 </layout>
-

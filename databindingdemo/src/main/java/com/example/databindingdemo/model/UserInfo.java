@@ -34,6 +34,10 @@ public class UserInfo extends BaseObservable {
         this.userBirthday = userGender;
     }
 
+    /*
+      注解 Bindable 用于双向数据绑定，需要与notifyPropertyCanged()方法结合使用， 该注解用于标注以“get”
+      或“is”开头的方法，且实体需要继承BaseObservable。
+     */
     @Bindable
     public String getUserName() {
         Log.d(TAG, "getUserName: " + userName);

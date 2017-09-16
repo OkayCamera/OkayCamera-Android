@@ -16,16 +16,18 @@
 
 package com.example.databindingdemo;
 
-import android.databinding.BindingBuildInfo;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.TextureView;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.example.databindingdemo.databinding.ActivityMainBinding;
+import com.example.databindingdemo.databinding.IncludeLayoutBinding;
+import com.example.databindingdemo.databinding.ViewStubBinding;
+import com.example.databindingdemo.model.DetailedInformation;
 import com.example.databindingdemo.model.UserInfo;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,20 +40,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 绑定方法一：
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        // binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         // 绑定方法二：
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        // 初始化UserInfo 这个Module
         userInfo = new UserInfo("yangjianguo", "24", "1991-05-06");
         binding.setUserInfo(userInfo);
         binding.setClickListener(new ClickListener());
 
-        /*
-        依旧可以使用findViewById()访问view
-        name = (TextView) findViewById(R.id.textView);
-         */
+        // 初始化 DetailedInformation 这个Module
+        DetailedInformation df = new DetailedInformation();
+        df.userName.set(userInfo.getUserName());
+        df.userAge.set(Integer.valueOf(userInfo.userAge));
+        // 在activity_main 中 include 的layout 由于是使用databinding定义的View，因此本质上属于
+        // IncludeLayoutBinding
+        IncludeLayoutBinding includeLayoutBinding = binding.includeLayout;
+        includeLayoutBinding.setDetailInfo(df);
+
+        // 依旧可以使用findViewById()访问view， 但是拒绝这么使用，因为binding中将所有带id的view都进行了实例化
+        // name = (TextView) findViewById(R.id.textView);
+
+        binding.viewStub.setOnInflateListener(new ViewStub.OnInflateListener() {
+            @Override
+            public void onInflate(ViewStub viewStub, View view) {
+                // 在被其他布局inflate时，将对应的值绑定上去
+                ViewStubBinding binding = DataBindingUtil.bind(view);
+                String testText = "testText balala";
+                binding.setTestText(testText);
+            }
+        });
+
+        // 在合适的时间 inflate viewStub
+        binding.viewStub.getViewStub().inflate();
     }
 
     public class ClickListener{

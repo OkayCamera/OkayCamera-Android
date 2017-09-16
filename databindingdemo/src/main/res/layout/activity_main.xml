@@ -19,6 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="com.example.databindingdemo.model.UserInfo" alias="User"/>
+        <import type="com.example.databindingdemo.DatabindingHelper" />
         <variable name="userInfo" type="User" />
         <variable name="clickListener" type="com.example.databindingdemo.MainActivity.ClickListener" />
     </data>
@@ -68,9 +69,8 @@
             android:layout_marginStart="11dp"
             android:layout_toEndOf="@+id/textView3"
             android:ems="10"
-            android:inputType="date"
             android:hint="name"
-            android:text="@={userInfo.userName}" />
+            android:text="@={DatabindingHelper.capitalize(userInfo.userName)}" />
 
         <EditText
             android:id="@+id/editText2"
@@ -105,11 +105,19 @@
 
         <!-- 通过定义的bind命名空间将任意一个值传递给下一个layout中，并且在该layout中定义相应的变量进行接收 -->
         <include
+            android:id="@+id/include_layout"
             layout="@layout/include_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/editText2"
             bind:userName="@{userInfo.userName}" />
+
+        <!-- 关于ViewStub如何使用 databinding 的例子 -->
+        <ViewStub
+            android:id="@+id/view_stub"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout="@layout/view_stub" />
     </RelativeLayout>
 </layout>

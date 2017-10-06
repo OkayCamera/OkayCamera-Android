@@ -119,3 +119,7 @@ dependencies {
     testCompile appTestDependencies.kotlinMockito
     testCompile appTestDependencies.kluent
 }
+
+repositories {
+    google()
+}

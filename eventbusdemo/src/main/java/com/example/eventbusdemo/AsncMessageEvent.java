@@ -14,36 +14,14 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.video;
+package com.example.eventbusdemo;
 
-import android.hardware.camera2.CameraAccessException;
+public class AsncMessageEvent {
+    int what;
+    String message;
 
-import com.okaycamera.okcamera.core.M.BaseModel;
-import com.okaycamera.okcamera.core.M.IModel;
-
-public class VideoModel extends BaseModel {
-    @Override
-    public IModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void createSession() throws CameraAccessException {
-
-    }
-
-    @Override
-    public void buildRequest(int type) {
-
-    }
-
-    @Override
-    public void process() {
-
-    }
-
-    @Override
-    public void saveFinalData() {
-
+    public AsncMessageEvent(int what, String msg) {
+        this.what = what;
+        this.message = msg;
     }
 }

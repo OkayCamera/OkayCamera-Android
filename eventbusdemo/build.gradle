@@ -15,17 +15,17 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
 
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
-        applicationId "com.example.databindingdemo"
-        minSdkVersion 15
-        targetSdkVersion 26
+        applicationId "com.example.eventbusdemo"
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         versionCode 1
         versionName "1.0"
 
@@ -33,26 +33,31 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+            // 在debug模式下测试混淆是否存在问题，因为release没有签名
+            minifyEnabled true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    // enable databinding
-    dataBinding {
-        enabled = true
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.0.2'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation appDependencies.appcompat
+    implementation appDependencies.constraintLayout
+    // 添加 eventBus 的依赖
+    implementation appDependencies.enventbus
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 repositories {

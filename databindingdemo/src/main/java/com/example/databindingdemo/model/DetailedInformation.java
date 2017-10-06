@@ -14,15 +14,16 @@
  *  limitations under the License.
  */
 
-package com.example.databindingdemo
+package com.example.databindingdemo.model;
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Created by Mi on 2017/9/16.
+ */
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+public class DetailedInformation {
+    public final ObservableField<String> userName = new ObservableField<>();
+    public final ObservableInt userAge = new ObservableInt();
 }

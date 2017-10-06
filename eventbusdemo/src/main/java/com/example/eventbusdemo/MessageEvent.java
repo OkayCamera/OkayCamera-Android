@@ -14,36 +14,17 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.video;
+package com.example.eventbusdemo;
 
-import android.hardware.camera2.CameraAccessException;
+/**
+ * 消息事件的载体，这个类可以是任意的名字或者对象，使用非常灵活
+ */
+public class MessageEvent {
+    public int what;
+    public String msg;
 
-import com.okaycamera.okcamera.core.M.BaseModel;
-import com.okaycamera.okcamera.core.M.IModel;
-
-public class VideoModel extends BaseModel {
-    @Override
-    public IModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void createSession() throws CameraAccessException {
-
-    }
-
-    @Override
-    public void buildRequest(int type) {
-
-    }
-
-    @Override
-    public void process() {
-
-    }
-
-    @Override
-    public void saveFinalData() {
-
+    public MessageEvent(int what, String msg) {
+        this.what = what;
+        this.msg = msg;
     }
 }

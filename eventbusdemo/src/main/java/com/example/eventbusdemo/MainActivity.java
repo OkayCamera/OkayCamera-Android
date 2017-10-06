@@ -31,17 +31,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // 配置EventBus
         configEventBus();
         new ProguardTest().proguardTest();
 
-//        EventBus.getDefault().register(this);
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        // 在异步发送消息
+                        // 在异步发送一条消息事件
                         EventBus.getDefault().post(new MessageEvent(1, "ok"));
                     }
                 }).start();
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!EventBus.getDefault().isRegistered(MainActivity.this)) {
+                    // 注册EventBus
                     EventBus.getDefault().register(MainActivity.this);
                 }
             }
@@ -59,18 +60,25 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 取消注册 EventBus
                 EventBus.getDefault().unregister(MainActivity.this);
             }
         });
         findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 在主线程发送一条粘性消息事件
                 EventBus.getDefault().postSticky(new MessageEvent(2, "sticky message"));
             }
         });
     }
 
     public void configEventBus(){
+        /*
+         这些配置是可选项，也可不配置，详见：
+         http://greenrobot.org/eventbus/documentation/configuration/
+         http://greenrobot.org/files/eventbus/javadoc/3.0/
+         */
         EventBus.builder()
                 .logNoSubscriberMessages(false)
                 .logSubscriberExceptions(false)
@@ -88,16 +96,26 @@ public class MainActivity extends AppCompatActivity {
                 .installDefaultEventBus();
     }
 
+    /**
+     * 在后台（通常是单独的线程，如果发送者是异步线程，在会在发送者的线程处理，如果为主线程，则会在新的线程处理）
+     * @param messageEvent
+     */
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void subscribeOnBackground(MessageEvent messageEvent) {
         Log.d(TAG, "subscribeOnBackground: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
     }
 
+    /**
+     * 在主线程处理收到的消息事件
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribeOnMainThread(MessageEvent messageEvent) {
         Log.d(TAG, "subscribeOnMainThread: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
     }
 
+    /**
+     * 无论谁发送的消息，都会创建一个新的线程处理该消息
+     */
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void subscribeOnAsncThread(MessageEvent messageEvent) {
         Log.d(TAG, "subscribeOnAsncThread: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
@@ -108,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "subscribeOnPostThread: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
     }
 
+    /**
+     * 优先级较高的在Posting线程执行的消息
+     */
     @Subscribe(threadMode = ThreadMode.POSTING, priority = 2)
     public void subscribeOnPostThread2(MessageEvent messageEvent) {
         Log.d(TAG, "subscribeOnPostThread2: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
@@ -118,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
 //        EventBus.getDefault().cancelEventDelivery(messageEvent);
     }
 
+    /**
+     * 粘性消息的例子，在订阅后，此方法会处理在订阅前最后一次发送的消息
+     */
     @Subscribe(threadMode = ThreadMode.ASYNC, sticky = true)
     public void subscribeStickyMessage(MessageEvent messageEvent) {
         Log.d(TAG, "subscribeStickyMessage: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
@@ -129,11 +153,5 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void subscribeOnDefault(MessageEvent messageEvent) {
         Log.d(TAG, "subscribeOnDefault: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        EventBus.getDefault().unregister(this);
     }
 }

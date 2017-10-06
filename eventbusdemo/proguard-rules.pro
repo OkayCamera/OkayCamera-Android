@@ -30,7 +30,7 @@
 
 #---------------------------------2.第三方包-------------------------------
 
-#eventBus
+#eventBus 相关的混淆，一定要添加，因为通过@subscribe 注解的方法没有被直接调用，会被优化掉，导致运行时找不到
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;

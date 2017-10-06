@@ -34,6 +34,7 @@ android {
 
     buildTypes {
         debug {
+            // 在debug模式下测试混淆是否存在问题，因为release没有签名
             minifyEnabled true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -48,10 +49,11 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation appDependencies.appcompat
     implementation appDependencies.constraintLayout
+    // 添加 eventBus 的依赖
     implementation appDependencies.enventbus
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'

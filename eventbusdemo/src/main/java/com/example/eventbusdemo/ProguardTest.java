@@ -20,6 +20,7 @@ import android.util.Log;
 
 public class ProguardTest {
     private static final String TAG = "ProguardTest";
+    // 通过打印log证明此类和方法是否已经被混淆，确认是否混淆成功，也可通过发编译确认。
     public void proguardTest() {
         Log.d(TAG, "proguardTest: ", new Exception());
     }

@@ -20,10 +20,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.eventbus.util.AsyncExecutor;
+import org.greenrobot.eventbus.util.ThrowableFailureEvent;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -69,6 +72,32 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // 在主线程发送一条粘性消息事件
                 EventBus.getDefault().postSticky(new MessageEvent(2, "sticky message"));
+            }
+        });
+        findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                 注意此处：当打开混淆时，报错：
+                 Failure event class must have a constructor with one parameter of type Throwable
+                 需要在混淆文件中加入：
+                 -keep class org.greenrobot.eventbus.util.ThrowableFailureEvent { *; }
+                 官方文档中并没有添加该混淆，是一处错误。
+                 */
+                AsyncExecutor.create()
+                        .execute(new AsyncExecutor.RunnableEx() {
+                            @Override
+                            public void run() throws Exception {
+                                CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox);
+                                boolean isSelected = checkBox.isChecked();
+                                Log.d(TAG, "run: " + isSelected);
+                                if (isSelected) {
+                                    throw new Exception("AsyncExe");
+                                }else {
+                                    EventBus.getDefault().post(new AsncMessageEvent(3, "Exception"));
+                                }
+                            }
+                        });
             }
         });
     }
@@ -153,5 +182,14 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void subscribeOnDefault(MessageEvent messageEvent) {
         Log.d(TAG, "subscribeOnDefault: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeOnAsyncNomal(AsncMessageEvent asncMessageEvent) {
+        Log.d(TAG, "subscribeOnAsyncNomal: " + asncMessageEvent);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeOnAsync(ThrowableFailureEvent throwableFailureEvent) {
+        Log.d(TAG, "subscribeOnAsync: " + throwableFailureEvent);
     }
 }

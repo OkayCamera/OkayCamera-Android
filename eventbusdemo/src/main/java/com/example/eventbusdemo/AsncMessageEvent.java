@@ -16,15 +16,12 @@
 
 package com.example.eventbusdemo;
 
-/**
- * 消息事件的载体，这个类可以是任意的名字或者对象，使用非常灵活
- */
-public class MessageEvent {
-    public int what;
-    public String msg;
+public class AsncMessageEvent {
+    int what;
+    String message;
 
-    public MessageEvent(int what, String msg) {
+    public AsncMessageEvent(int what, String msg) {
         this.what = what;
-        this.msg = msg;
+        this.message = msg;
     }
 }

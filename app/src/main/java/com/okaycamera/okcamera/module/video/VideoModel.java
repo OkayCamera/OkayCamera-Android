@@ -16,7 +16,34 @@
 
 package com.okaycamera.okcamera.module.video;
 
+import android.hardware.camera2.CameraAccessException;
+
 import com.okaycamera.okcamera.core.M.BaseModel;
+import com.okaycamera.okcamera.core.M.IModel;
 
 public class VideoModel extends BaseModel {
+    @Override
+    public IModel initModel() {
+        return null;
+    }
+
+    @Override
+    public void createSession() throws CameraAccessException {
+
+    }
+
+    @Override
+    public void buildRequest(int type) {
+
+    }
+
+    @Override
+    public void process() {
+
+    }
+
+    @Override
+    public void saveFinalData() {
+
+    }
 }

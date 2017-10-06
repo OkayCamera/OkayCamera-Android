@@ -62,18 +62,14 @@ public class CaptureModel extends BaseModel {
 
     }
 
-    @Override
     public void capture() {
-
     }
 
     @Override
     public void process() {
-
     }
 
     @Override
     public void saveFinalData() {
-
     }
 }

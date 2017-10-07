@@ -30,13 +30,11 @@ import org.greenrobot.eventbus.util.ThrowableFailureEvent;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // 配置EventBus
-        configEventBus();
-        new ProguardTest().proguardTest();
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 如果注册过，则不能再次注册，否则会抛出异常
                 if (!EventBus.getDefault().isRegistered(MainActivity.this)) {
                     // 注册EventBus
                     EventBus.getDefault().register(MainActivity.this);
@@ -84,14 +83,14 @@ public class MainActivity extends AppCompatActivity {
                  -keep class org.greenrobot.eventbus.util.ThrowableFailureEvent { *; }
                  官方文档中并没有添加该混淆，是一处错误。
                  */
-                AsyncExecutor.create()
-                        .execute(new AsyncExecutor.RunnableEx() {
+                AsyncExecutor.create().execute(new AsyncExecutor.RunnableEx() {
                             @Override
                             public void run() throws Exception {
                                 CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox);
                                 boolean isSelected = checkBox.isChecked();
                                 Log.d(TAG, "run: " + isSelected);
                                 if (isSelected) {
+                                    // 假定运行过程中抛出异常
                                     throw new Exception("AsyncExe");
                                 }else {
                                     EventBus.getDefault().post(new AsncMessageEvent(3, "Exception"));
@@ -102,32 +101,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void configEventBus(){
-        /*
-         这些配置是可选项，也可不配置，详见：
-         http://greenrobot.org/eventbus/documentation/configuration/
-         http://greenrobot.org/files/eventbus/javadoc/3.0/
-         */
-        EventBus.builder()
-                .logNoSubscriberMessages(false)
-                .logSubscriberExceptions(false)
-                .sendNoSubscriberEvent(false)
-                .strictMethodVerification(true)
-                /*
-                 by default, EventBus catches exceptions thrown from subscriber methods and sends
-                 a SubscriberExceptionEvent that may, but does not have to, be handled.
-                 */
-                .throwSubscriberException(true)
-                /*
-                 this can be done only once before the default EventBus instance is used the first
-                 time. Subsequent calls to  installDefaultEventBus() will throw an exception.
-                 */
-                .installDefaultEventBus();
-    }
-
     /**
      * 在后台（通常是单独的线程，如果发送者是异步线程，在会在发送者的线程处理，如果为主线程，则会在新的线程处理）
-     * @param messageEvent
      */
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void subscribeOnBackground(MessageEvent messageEvent) {
@@ -184,10 +159,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "subscribeOnDefault: what = " + messageEvent.what + "; msg = " + messageEvent.msg);
     }
 
+    /**
+     * 在主线程订阅AsyncExecutor 处理的正确结果
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribeOnAsyncNomal(AsncMessageEvent asncMessageEvent) {
         Log.d(TAG, "subscribeOnAsyncNomal: " + asncMessageEvent);
     }
+
+    /**
+     * 在主线程订阅AsyncExecutor处理的异常结果
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribeOnAsync(ThrowableFailureEvent throwableFailureEvent) {
         Log.d(TAG, "subscribeOnAsync: " + throwableFailureEvent);

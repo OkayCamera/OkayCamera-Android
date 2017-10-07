@@ -35,6 +35,7 @@ public class EventBusApplication extends Application{
          http://greenrobot.org/files/eventbus/javadoc/3.0/
          */
         EventBus.builder()
+                .addIndex(new MyEventBusIndex())
                 .logNoSubscriberMessages(false)
                 .logSubscriberExceptions(false)
                 .sendNoSubscriberEvent(false)

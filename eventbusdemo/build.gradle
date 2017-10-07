@@ -30,6 +30,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ eventBusIndex : 'com.example.eventbusdemo.MyEventBusIndex' ]
+            }
+        }
     }
 
     buildTypes {
@@ -53,6 +59,7 @@ dependencies {
     implementation appDependencies.constraintLayout
     // 添加 eventBus 的依赖
     implementation appDependencies.enventbus
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {

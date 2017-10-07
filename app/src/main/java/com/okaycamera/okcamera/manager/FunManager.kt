@@ -31,4 +31,11 @@ object FunManager{
         // use android.util.Log with default
         return 0;
     }
+
+    /**
+     * whether handle the application uncaught exception
+     */
+    fun handleCrash():Boolean{
+        return true;
+    }
 }

@@ -16,9 +16,14 @@
 
 package com.okaycamera.okcamera;
 
-public class Application extends android.app.Application {
+import com.okaycamera.okcamera.core.util.CrashHandler;
+import com.okaycamera.okcamera.manager.FunManager;
+
+public class OkCameraApplication extends android.app.Application {
     @Override public void onCreate() {
         super.onCreate();
-
+        if (FunManager.INSTANCE.handleCrash()) {
+            CrashHandler.Companion.getInstance().init(this);
+        }
     }
 }

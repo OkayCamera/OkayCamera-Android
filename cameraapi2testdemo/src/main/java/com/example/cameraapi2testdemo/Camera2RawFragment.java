@@ -16,14 +16,9 @@
 
 package com.example.cameraapi2testdemo;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -40,13 +35,10 @@ import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -68,24 +60,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.permission.PermissionConfirmationDialog;
+import com.example.permission.PermissionManager;
+
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.example.cameraapi2testdemo.CameraDeviceCapability.MAX_PREVIEW_HEIGHT;
+import static com.example.cameraapi2testdemo.CameraDeviceCapability.MAX_PREVIEW_WIDTH;
+import static com.example.cameraapi2testdemo.Utils.checkAspectsEqual;
+import static com.example.cameraapi2testdemo.Utils.contains;
+import static com.example.permission.PermissionManager.CAMERA_PERMISSIONS;
+import static com.example.permission.PermissionManager.REQUEST_CAMERA_PERMISSIONS;
 
 /**
  * A fragment that demonstrates use of the Camera2 API to capture RAW and JPEG photos.
@@ -122,50 +114,9 @@ public class Camera2RawFragment extends Fragment
         implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
 
     /**
-     * Conversion from screen rotation to JPEG orientation.
-     */
-    private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
-
-    static {
-        ORIENTATIONS.append(Surface.ROTATION_0, 0);
-        ORIENTATIONS.append(Surface.ROTATION_90, 90);
-        ORIENTATIONS.append(Surface.ROTATION_180, 180);
-        ORIENTATIONS.append(Surface.ROTATION_270, 270);
-    }
-
-    /**
-     * Request code for camera permissions.
-     */
-    private static final int REQUEST_CAMERA_PERMISSIONS = 1;
-
-    /**
-     * Permissions required to take a picture.
-     */
-    private static final String[] CAMERA_PERMISSIONS = {
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    };
-
-    /**
      * Timeout for the pre-capture sequence.
      */
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-
-    /**
-     * Tolerance when comparing aspect ratios.
-     */
-    private static final double ASPECT_RATIO_TOLERANCE = 0.005;
-
-    /**
-     * Max preview width that is guaranteed by Camera2 API
-     */
-    private static final int MAX_PREVIEW_WIDTH = 1920;
-
-    /**
-     * Max preview height that is guaranteed by Camera2 API
-     */
-    private static final int MAX_PREVIEW_HEIGHT = 1080;
 
     /**
      * Tag for the {@link Log}.
@@ -456,7 +407,7 @@ public class Camera2RawFragment extends Fragment
                         // If we are running on an non-legacy device, we should also wait until
                         // auto-exposure and auto-white-balance have converged as well before
                         // taking a picture.
-                        if (!isLegacyLocked()) {
+                        if (!CameraDeviceCapability.isLegacyLocked(mCharacteristics)) {
                             Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                             Integer awbState = result.get(CaptureResult.CONTROL_AWB_STATE);
                             if (aeState == null || awbState == null) {
@@ -512,7 +463,7 @@ public class Camera2RawFragment extends Fragment
         @Override
         public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request,
                                      long timestamp, long frameNumber) {
-            String currentDateTime = generateTimestamp();
+            String currentDateTime = Utils.generateTimestamp();
             File rawFile = new File(Environment.
                     getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
                     "RAW_" + currentDateTime + ".dng");
@@ -693,8 +644,7 @@ public class Camera2RawFragment extends Fragment
         try {
             // Find a CameraDevice that supports RAW captures, and configure state.
             for (String cameraId : manager.getCameraIdList()) {
-                CameraCharacteristics characteristics
-                        = manager.getCameraCharacteristics(cameraId);
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
 
                 // We only use a camera that supports RAW in this sample.
                 if (!contains(characteristics.get(
@@ -712,11 +662,11 @@ public class Camera2RawFragment extends Fragment
                 // For still image captures, we use the largest available size.
                 Size largestJpeg = Collections.max(
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                        new CompareSizesByArea());
+                        new Utils.CompareSizesByArea());
 
                 Size largestRaw = Collections.max(
                         Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),
-                        new CompareSizesByArea());
+                        new Utils.CompareSizesByArea());
 
                 synchronized (mCameraStateLock) {
                     // Set up ImageReaders for JPEG and RAW outputs.  Place these in a reference
@@ -795,7 +745,7 @@ public class Camera2RawFragment extends Fragment
      * Requests permissions necessary to use camera and save pictures.
      */
     private void requestCameraPermissions() {
-        if (shouldShowRationale()) {
+        if (PermissionManager.shouldShowRationale(this)) {
             PermissionConfirmationDialog.newInstance().show(getChildFragmentManager(), "dialog");
         } else {
             FragmentCompat.requestPermissions(this, CAMERA_PERMISSIONS, REQUEST_CAMERA_PERMISSIONS);
@@ -815,20 +765,6 @@ public class Camera2RawFragment extends Fragment
             }
         }
         return true;
-    }
-
-    /**
-     * Gets whether you should show UI with rationale for requesting the permissions.
-     *
-     * @return True if the UI should be shown.
-     */
-    private boolean shouldShowRationale() {
-        for (String permission : CAMERA_PERMISSIONS) {
-            if (FragmentCompat.shouldShowRequestPermissionRationale(this, permission)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -1040,7 +976,7 @@ public class Camera2RawFragment extends Fragment
 
             // For still image captures, we always use the largest available size.
             Size largestJpeg = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                    new CompareSizesByArea());
+                    new Utils.CompareSizesByArea());
 
             // Find the rotation of the device relative to the native device orientation.
             int deviceRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
@@ -1048,7 +984,7 @@ public class Camera2RawFragment extends Fragment
             activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
 
             // Find the rotation of the device relative to the camera sensor's orientation.
-            int totalRotation = sensorToDeviceRotation(mCharacteristics, deviceRotation);
+            int totalRotation = Utils.sensorToDeviceRotation(mCharacteristics, deviceRotation);
 
             // Swap the view dimensions for calculation as needed if they are rotated relative to
             // the sensor.
@@ -1075,7 +1011,7 @@ public class Camera2RawFragment extends Fragment
             }
 
             // Find the best preview size for these view dimensions and configured JPEG size.
-            Size previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
+            Size previewSize = Utils.chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                     rotatedViewWidth, rotatedViewHeight, maxPreviewWidth, maxPreviewHeight,
                     largestJpeg);
 
@@ -1091,8 +1027,8 @@ public class Camera2RawFragment extends Fragment
             // cameras).
             int rotation = (mCharacteristics.get(CameraCharacteristics.LENS_FACING) ==
                     CameraCharacteristics.LENS_FACING_FRONT) ?
-                    (360 + ORIENTATIONS.get(deviceRotation)) % 360 :
-                    (360 - ORIENTATIONS.get(deviceRotation)) % 360;
+                    (360 + Utils.ORIENTATIONS.get(deviceRotation)) % 360 :
+                    (360 - Utils.ORIENTATIONS.get(deviceRotation)) % 360;
 
             Matrix matrix = new Matrix();
             RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
@@ -1168,7 +1104,7 @@ public class Camera2RawFragment extends Fragment
 
                 // If this is not a legacy device, we can also trigger an auto-exposure metering
                 // run.
-                if (!isLegacyLocked()) {
+                if (!CameraDeviceCapability.isLegacyLocked(mCharacteristics)) {
                     // Tell the camera to lock focus.
                     mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
                             CameraMetadata.CONTROL_AE_PRECAPTURE_TRIGGER_START);
@@ -1215,7 +1151,7 @@ public class Camera2RawFragment extends Fragment
             // Set orientation.
             int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,
-                    sensorToDeviceRotation(mCharacteristics, rotation));
+                    Utils.sensorToDeviceRotation(mCharacteristics, rotation));
 
             // Set request tag to easily track results in callbacks.
             captureBuilder.setTag(mRequestCounter.getAndIncrement());
@@ -1307,436 +1243,11 @@ public class Camera2RawFragment extends Fragment
         }
     }
 
-    /**
-     * Runnable that saves an {@link Image} into the specified {@link File}, and updates
-     * {@link android.provider.MediaStore} to include the resulting file.
-     * <p/>
-     * This can be constructed through an {@link ImageSaverBuilder} as the necessary image and
-     * result information becomes available.
-     */
-    private static class ImageSaver implements Runnable {
-
-        /**
-         * The image to save.
-         */
-        private final Image mImage;
-        /**
-         * The file we save the image into.
-         */
-        private final File mFile;
-
-        /**
-         * The CaptureResult for this image capture.
-         */
-        private final CaptureResult mCaptureResult;
-
-        /**
-         * The CameraCharacteristics for this camera device.
-         */
-        private final CameraCharacteristics mCharacteristics;
-
-        /**
-         * The Context to use when updating MediaStore with the saved images.
-         */
-        private final Context mContext;
-
-        /**
-         * A reference counted wrapper for the ImageReader that owns the given image.
-         */
-        private final RefCountedAutoCloseable<ImageReader> mReader;
-
-        private ImageSaver(Image image, File file, CaptureResult result,
-                           CameraCharacteristics characteristics, Context context,
-                           RefCountedAutoCloseable<ImageReader> reader) {
-            mImage = image;
-            mFile = file;
-            mCaptureResult = result;
-            mCharacteristics = characteristics;
-            mContext = context;
-            mReader = reader;
-        }
-
-        @Override
-        public void run() {
-            boolean success = false;
-            int format = mImage.getFormat();
-            switch (format) {
-                case ImageFormat.JPEG: {
-                    ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
-                    byte[] bytes = new byte[buffer.remaining()];
-                    buffer.get(bytes);
-                    FileOutputStream output = null;
-                    try {
-                        output = new FileOutputStream(mFile);
-                        output.write(bytes);
-                        success = true;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        mImage.close();
-                        closeOutput(output);
-                    }
-                    break;
-                }
-                case ImageFormat.RAW_SENSOR: {
-                    DngCreator dngCreator = new DngCreator(mCharacteristics, mCaptureResult);
-                    FileOutputStream output = null;
-                    try {
-                        output = new FileOutputStream(mFile);
-                        dngCreator.writeImage(output, mImage);
-                        success = true;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        mImage.close();
-                        closeOutput(output);
-                    }
-                    break;
-                }
-                default: {
-                    Log.e(TAG, "Cannot save image, unexpected image format:" + format);
-                    break;
-                }
-            }
-
-            // Decrement reference count to allow ImageReader to be closed to free up resources.
-            mReader.close();
-
-            // If saving the file succeeded, update MediaStore.
-            if (success) {
-                MediaScannerConnection.scanFile(mContext, new String[]{mFile.getPath()},
-                /*mimeTypes*/null, new MediaScannerConnection.MediaScannerConnectionClient() {
-                            @Override
-                            public void onMediaScannerConnected() {
-                                // Do nothing
-                            }
-
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.i(TAG, "Scanned " + path + ":");
-                                Log.i(TAG, "-> uri=" + uri);
-                            }
-                        });
-            }
-        }
-
-        /**
-         * Builder class for constructing {@link ImageSaver}s.
-         * <p/>
-         * This class is thread safe.
-         */
-        public static class ImageSaverBuilder {
-            private Image mImage;
-            private File mFile;
-            private CaptureResult mCaptureResult;
-            private CameraCharacteristics mCharacteristics;
-            private Context mContext;
-            private RefCountedAutoCloseable<ImageReader> mReader;
-
-            /**
-             * Construct a new ImageSaverBuilder using the given {@link Context}.
-             *
-             * @param context a {@link Context} to for accessing the
-             *                {@link android.provider.MediaStore}.
-             */
-            public ImageSaverBuilder(final Context context) {
-                mContext = context;
-            }
-
-            public synchronized ImageSaverBuilder setRefCountedReader(
-                    RefCountedAutoCloseable<ImageReader> reader) {
-                if (reader == null) throw new NullPointerException();
-
-                mReader = reader;
-                return this;
-            }
-
-            public synchronized ImageSaverBuilder setImage(final Image image) {
-                if (image == null) throw new NullPointerException();
-                mImage = image;
-                return this;
-            }
-
-            public synchronized ImageSaverBuilder setFile(final File file) {
-                if (file == null) throw new NullPointerException();
-                mFile = file;
-                return this;
-            }
-
-            public synchronized ImageSaverBuilder setResult(final CaptureResult result) {
-                if (result == null) throw new NullPointerException();
-                mCaptureResult = result;
-                return this;
-            }
-
-            public synchronized ImageSaverBuilder setCharacteristics(
-                    final CameraCharacteristics characteristics) {
-                if (characteristics == null) throw new NullPointerException();
-                mCharacteristics = characteristics;
-                return this;
-            }
-
-            public synchronized ImageSaver buildIfComplete() {
-                if (!isComplete()) {
-                    return null;
-                }
-                return new ImageSaver(mImage, mFile, mCaptureResult, mCharacteristics, mContext,
-                        mReader);
-            }
-
-            public synchronized String getSaveLocation() {
-                return (mFile == null) ? "Unknown" : mFile.toString();
-            }
-
-            private boolean isComplete() {
-                return mImage != null && mFile != null && mCaptureResult != null
-                        && mCharacteristics != null;
-            }
-        }
-    }
 
     // Utility classes and methods:
     // *********************************************************************************************
 
-    /**
-     * Comparator based on area of the given {@link Size} objects.
-     */
-    static class CompareSizesByArea implements Comparator<Size> {
 
-        @Override
-        public int compare(Size lhs, Size rhs) {
-            // We cast here to ensure the multiplications won't overflow
-            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                    (long) rhs.getWidth() * rhs.getHeight());
-        }
-
-    }
-
-    /**
-     * A dialog fragment for displaying non-recoverable errors; this {@ling Activity} will be
-     * finished once the dialog has been acknowledged by the user.
-     */
-    public static class ErrorDialog extends DialogFragment {
-
-        private String mErrorMessage;
-
-        public ErrorDialog() {
-            mErrorMessage = "Unknown error occurred!";
-        }
-
-        // Build a dialog with a custom message (Fragments require default constructor).
-        public static ErrorDialog buildErrorDialog(String errorMessage) {
-            ErrorDialog dialog = new ErrorDialog();
-            dialog.mErrorMessage = errorMessage;
-            return dialog;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Activity activity = getActivity();
-            return new AlertDialog.Builder(activity)
-                    .setMessage(mErrorMessage)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            activity.finish();
-                        }
-                    })
-                    .create();
-        }
-    }
-
-    /**
-     * A wrapper for an {@link AutoCloseable} object that implements reference counting to allow
-     * for resource management.
-     */
-    public static class RefCountedAutoCloseable<T extends AutoCloseable> implements AutoCloseable {
-        private T mObject;
-        private long mRefCount = 0;
-
-        /**
-         * Wrap the given object.
-         *
-         * @param object an object to wrap.
-         */
-        public RefCountedAutoCloseable(T object) {
-            if (object == null) throw new NullPointerException();
-            mObject = object;
-        }
-
-        /**
-         * Increment the reference count and return the wrapped object.
-         *
-         * @return the wrapped object, or null if the object has been released.
-         */
-        public synchronized T getAndRetain() {
-            if (mRefCount < 0) {
-                return null;
-            }
-            mRefCount++;
-            return mObject;
-        }
-
-        /**
-         * Return the wrapped object.
-         *
-         * @return the wrapped object, or null if the object has been released.
-         */
-        public synchronized T get() {
-            return mObject;
-        }
-
-        /**
-         * Decrement the reference count and release the wrapped object if there are no other
-         * users retaining this object.
-         */
-        @Override
-        public synchronized void close() {
-            if (mRefCount >= 0) {
-                mRefCount--;
-                if (mRefCount < 0) {
-                    try {
-                        mObject.close();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    } finally {
-                        mObject = null;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
-     * is at least as large as the respective texture view size, and that is at most as large as the
-     * respective max size, and whose aspect ratio matches with the specified value. If such size
-     * doesn't exist, choose the largest one that is at most as large as the respective max size,
-     * and whose aspect ratio matches with the specified value.
-     *
-     * @param choices           The list of sizes that the camera supports for the intended output
-     *                          class
-     * @param textureViewWidth  The width of the texture view relative to sensor coordinate
-     * @param textureViewHeight The height of the texture view relative to sensor coordinate
-     * @param maxWidth          The maximum width that can be chosen
-     * @param maxHeight         The maximum height that can be chosen
-     * @param aspectRatio       The aspect ratio
-     * @return The optimal {@code Size}, or an arbitrary one if none were big enough
-     */
-    private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
-                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
-        // Collect the supported resolutions that are at least as big as the preview Surface
-        List<Size> bigEnough = new ArrayList<>();
-        // Collect the supported resolutions that are smaller than the preview Surface
-        List<Size> notBigEnough = new ArrayList<>();
-        int w = aspectRatio.getWidth();
-        int h = aspectRatio.getHeight();
-        for (Size option : choices) {
-            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
-                    option.getHeight() == option.getWidth() * h / w) {
-                if (option.getWidth() >= textureViewWidth &&
-                        option.getHeight() >= textureViewHeight) {
-                    bigEnough.add(option);
-                } else {
-                    notBigEnough.add(option);
-                }
-            }
-        }
-
-        // Pick the smallest of those big enough. If there is no one big enough, pick the
-        // largest of those not big enough.
-        if (bigEnough.size() > 0) {
-            return Collections.min(bigEnough, new CompareSizesByArea());
-        } else if (notBigEnough.size() > 0) {
-            return Collections.max(notBigEnough, new CompareSizesByArea());
-        } else {
-            Log.e(TAG, "Couldn't find any suitable preview size");
-            return choices[0];
-        }
-    }
-
-    /**
-     * Generate a string containing a formatted timestamp with the current date and time.
-     *
-     * @return a {@link String} representing a time.
-     */
-    private static String generateTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.US);
-        return sdf.format(new Date());
-    }
-
-    /**
-     * Cleanup the given {@link OutputStream}.
-     *
-     * @param outputStream the stream to close.
-     */
-    private static void closeOutput(OutputStream outputStream) {
-        if (null != outputStream) {
-            try {
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Return true if the given array contains the given integer.
-     *
-     * @param modes array to check.
-     * @param mode  integer to get for.
-     * @return true if the array contains the given integer, otherwise false.
-     */
-    private static boolean contains(int[] modes, int mode) {
-        if (modes == null) {
-            return false;
-        }
-        for (int i : modes) {
-            if (i == mode) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Return true if the two given {@link Size}s have the same aspect ratio.
-     *
-     * @param a first {@link Size} to compare.
-     * @param b second {@link Size} to compare.
-     * @return true if the sizes have the same aspect ratio, otherwise false.
-     */
-    private static boolean checkAspectsEqual(Size a, Size b) {
-        double aAspect = a.getWidth() / (double) a.getHeight();
-        double bAspect = b.getWidth() / (double) b.getHeight();
-        return Math.abs(aAspect - bAspect) <= ASPECT_RATIO_TOLERANCE;
-    }
-
-    /**
-     * Rotation need to transform from the camera sensor orientation to the device's current
-     * orientation.
-     *
-     * @param c                 the {@link CameraCharacteristics} to query for the camera sensor
-     *                          orientation.
-     * @param deviceOrientation the current device orientation relative to the native device
-     *                          orientation.
-     * @return the total rotation from the sensor orientation to the current device orientation.
-     */
-    private static int sensorToDeviceRotation(CameraCharacteristics c, int deviceOrientation) {
-        int sensorOrientation = c.get(CameraCharacteristics.SENSOR_ORIENTATION);
-
-        // Get device orientation in degrees
-        deviceOrientation = ORIENTATIONS.get(deviceOrientation);
-
-        // Reverse device orientation for front-facing cameras
-        if (c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
-            deviceOrientation = -deviceOrientation;
-        }
-
-        // Calculate desired JPEG orientation relative to camera orientation to make
-        // the image upright relative to the device orientation
-        return (sensorOrientation + deviceOrientation + 360) % 360;
-    }
 
     /**
      * Shows a {@link Toast} on the UI thread.
@@ -1773,18 +1284,6 @@ public class Camera2RawFragment extends Fragment
     }
 
     /**
-     * Check if we are using a device that only supports the LEGACY hardware level.
-     * <p/>
-     * Call this only with {@link #mCameraStateLock} held.
-     *
-     * @return true if this is a legacy device.
-     */
-    private boolean isLegacyLocked() {
-        return mCharacteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) ==
-                CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
-    }
-
-    /**
      * Start the timer for the pre-capture sequence.
      * <p/>
      * Call this only with {@link #mCameraStateLock} held.
@@ -1802,39 +1301,6 @@ public class Camera2RawFragment extends Fragment
      */
     private boolean hitTimeoutLocked() {
         return (SystemClock.elapsedRealtime() - mCaptureTimer) > PRECAPTURE_TIMEOUT_MS;
-    }
-
-    /**
-     * A dialog that explains about the necessary permissions.
-     */
-    public static class PermissionConfirmationDialog extends DialogFragment {
-
-        public static PermissionConfirmationDialog newInstance() {
-            return new PermissionConfirmationDialog();
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Fragment parent = getParentFragment();
-            return new AlertDialog.Builder(getActivity())
-                    .setMessage(R.string.request_permission)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            FragmentCompat.requestPermissions(parent, CAMERA_PERMISSIONS,
-                                    REQUEST_CAMERA_PERMISSIONS);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getActivity().finish();
-                                }
-                            })
-                    .create();
-        }
-
     }
 
 }

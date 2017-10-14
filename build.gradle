@@ -26,6 +26,9 @@ allprojects {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         testApplicationId = 'com.okaycamera.okcamera.test'
     }
+    repositories {
+        google()
+    }
 }
 
 task clean(type: Delete) {

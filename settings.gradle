@@ -1,1 +1,1 @@
-include ':app', ':databindingdemo', ':eventbusdemo', ':cameraapi2testdemo'
+include ':app', ':databindingdemo', ':eventbusdemo', ':cameraapi2testdemo', ':okcameralibrary'

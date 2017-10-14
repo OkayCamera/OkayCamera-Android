@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/cameraapi2testdemo/cameraapi2testdemo.iml" filepath="$PROJECT_DIR$/cameraapi2testdemo/cameraapi2testdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/databindingdemo/databindingdemo.iml" filepath="$PROJECT_DIR$/databindingdemo/databindingdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/eventbusdemo/eventbusdemo.iml" filepath="$PROJECT_DIR$/eventbusdemo/eventbusdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okcameralibrary/okcameralibrary.iml" filepath="$PROJECT_DIR$/okcameralibrary/okcameralibrary.iml" />
     </modules>
   </component>
 </project>

@@ -16,15 +16,15 @@
 
 package com.okaycamera.okcamera
 
+import android.app.Activity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.okaycamera.okcamera.manager.FunManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-class Main : AppCompatActivity() {
+class Main : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // define lunch animation, must call before onCreate()

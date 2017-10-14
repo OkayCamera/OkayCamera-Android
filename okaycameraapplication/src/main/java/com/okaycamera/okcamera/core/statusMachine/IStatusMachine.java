@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.video;
+package com.okaycamera.okcamera.core.statusMachine;
 
-import com.okaycamera.okcamera.core.VM.BaseViewModel;
-
-public class VideoVM extends BaseViewModel {
-
+public interface IStatusMachine {
+    void setStatus(int status);
+    void updateStatus();
 }

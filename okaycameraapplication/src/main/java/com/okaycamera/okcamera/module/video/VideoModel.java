@@ -46,4 +46,23 @@ public class VideoModel extends BaseModel {
     public void saveFinalData() {
 
     }
+
+    // video's operations
+    public void startRecord(){
+
+    }
+
+    public void stopRecord() {
+
+    }
+
+    public void pauseRecord() {
+
+    }
+
+    public void snapShot() {
+
+    }
+
+
 }

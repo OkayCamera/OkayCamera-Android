@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.video;
+package com.okaycamera.okcamera.widget.dialogfragment;
 
-import com.okaycamera.okcamera.core.VM.BaseViewModel;
+import android.app.DialogFragment;
 
-public class VideoVM extends BaseViewModel {
-
+public class ErrorDialogFragment extends DialogFragment {
 }

@@ -90,8 +90,8 @@ dependencies {
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile appDependencies.kotlin
-    compile appDependencies.appcompat
     compile appDependencies.constraintLayout
+    compile appDependencies.androidAnnotations
     compile appDependencies.anko // add Anko lib, should use part when method full 4k
     compile appDependencies.enventbus
     compile appDependencies.rxJava
@@ -118,4 +118,5 @@ dependencies {
     testCompile appTestDependencies.kotlinJunit
     testCompile appTestDependencies.kotlinMockito
     testCompile appTestDependencies.kluent
+    compile 'com.android.support:support-annotations:25.4.0'
 }

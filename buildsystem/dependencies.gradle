@@ -29,7 +29,7 @@ ext {
     javaxInjectVersion = '1'
     gsonVersion = '2.3'
     okHttpVersion = '2.5.0'
-    androidAnnotationsVersion = '21.0.3'
+    androidAnnotationsVersion = '25.4.0'
     arrowVersion = '1.0.0'
 
     //Testing

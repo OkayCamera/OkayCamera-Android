@@ -1,0 +1,122 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        applicationId globalConfiguration["androidApplicationId"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+        testApplicationId globalConfiguration["testApplicationId"]
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    testOptions {
+        // the android.jar file used to run unit tests does not contain any actual code
+        // (those APIs are provided only by the Android system image on a device)
+        unitTests.returnDefaultValues = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    //kapt
+    kapt {
+        generateStubs = true
+    }
+}
+
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test') || !sourceSet.name.startsWith('androidTest')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}
+
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test') || !sourceSet.name.startsWith('androidTest')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}
+
+dependencies {
+    def appDependencies = rootProject.ext.appDependencies
+    def appTestDependencies = rootProject.ext.appTestDependencies
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile appDependencies.kotlin
+    compile appDependencies.constraintLayout
+    compile appDependencies.androidAnnotations
+    compile appDependencies.anko // add Anko lib, should use part when method full 4k
+    compile appDependencies.enventbus
+    compile appDependencies.rxJava
+
+    kapt 'com.android.databinding:compiler:2.3.2'
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     *  Optional -- UI testing with Espresso
+     *
+     *  If your build configuration includes a compile dependency for the support-annotations
+     *  library and an androidTestCompile dependency for the espresso-core library,
+     *  your build might fail due to a dependency conflict. To resolve, update your dependency
+     *  for espresso-core as follows:
+     */
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile appTestDependencies.uiautomator // Optional
+    androidTestCompile appTestDependencies.runner
+    androidTestCompile appTestDependencies.rules // dependency
+
+    // FOR Local Unit Tests
+    testCompile appTestDependencies.kotlinStdlib
+    testCompile appTestDependencies.kotlinJunit
+    testCompile appTestDependencies.kotlinMockito
+    testCompile appTestDependencies.kluent
+    compile 'com.android.support:support-annotations:25.4.0'
+}

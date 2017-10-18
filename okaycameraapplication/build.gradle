@@ -118,5 +118,4 @@ dependencies {
     testCompile appTestDependencies.kotlinJunit
     testCompile appTestDependencies.kotlinMockito
     testCompile appTestDependencies.kluent
-    compile 'com.android.support:support-annotations:25.4.0'
 }

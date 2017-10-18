@@ -16,17 +16,23 @@
 
 package com.okaycamera.okcamera
 
-import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.okaycamera.okcamera.manager.FunManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-class Main : Activity() {
+class Main : BaseActivity() {
+
+
+    override fun getClassName(): String {
+        return Main.javaClass.simpleName
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate start")
         // define lunch animation, must call before onCreate()
         doLunchAnim(true)
         super.onCreate(savedInstanceState)
@@ -40,7 +46,8 @@ class Main : Activity() {
         // use databinding framework
 //        setContentView(this, R.layout.activity_main)
         // Example of a call to a native method
-        initView();
+        initView()
+        Log.d(TAG, "onCreate end")
     }
 
     /**
@@ -64,7 +71,7 @@ class Main : Activity() {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    external fun stringFromJNI(): String
+    private external fun stringFromJNI(): String
 
     companion object {
         // Used to load the 'native-lib' library on application startup.
@@ -95,7 +102,7 @@ class Main : Activity() {
      * the activity enter or close animatio
      *  @param isStart true if activity start, false if activity close
      */
-    fun doLunchAnim(isStart: Boolean) {
+    private fun doLunchAnim(isStart: Boolean) {
         // fixme: click home quit application the animation will not start
         if (FunManager.useLunchAnim()){
             if (isStart) {

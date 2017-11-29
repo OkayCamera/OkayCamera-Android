@@ -20,35 +20,39 @@ import android.hardware.camera2.CaptureRequest;
 import android.support.annotation.NonNull;
 import android.view.Surface;
 
+import com.okaycamera.okcamera.core.exception.ObjectNotInitializedException;
+
 import java.util.List;
 
 public class OkCaptureRequestBuilder {
     private CaptureRequest.Builder mBuilder;
 
-    public  OkCaptureRequestBuilder(@NonNull CaptureRequest.Builder builder) {
-        this.mBuilder = builder;
+    public OkCaptureRequestBuilder init(@NonNull CaptureRequest.Builder mBuilder) {
+        this.mBuilder = mBuilder;
+        return this;
     }
 
-    public  OkCaptureRequestBuilder(@NonNull CaptureRequest.Builder builder, Object tag) {
-        this.mBuilder = builder;
-        this.setTag(tag);
-    }
-
-    public  OkCaptureRequestBuilder(@NonNull OkCaptureRequestBuilder builder) {
-        this.mBuilder = builder.mBuilder;
-    }
-
-    public  OkCaptureRequestBuilder(@NonNull OkCaptureRequestBuilder builder, Object tag) {
-        this.mBuilder = builder.mBuilder;
-        this.setTag(tag);
+    public OkCaptureRequestBuilder init(@NonNull CaptureRequest.Builder mBuilder, Object tag) {
+        this.mBuilder = mBuilder;
+        try {
+            this.setTag(tag);
+        } catch (ObjectNotInitializedException ignored) {
+        }
+        return this;
     }
 
     /**
      * Set a tag for this request.
      * @param tag an arbitrary Object to store with this request
+     * @throws ObjectNotInitializedException You should call init() before call this method otherwise
+     * it will throw a ObjectNotInitializedException
      */
-    public OkCaptureRequestBuilder 	setTag(@NonNull Object tag) {
-        mBuilder.setTag(tag);
+    public OkCaptureRequestBuilder 	setTag(@NonNull Object tag) throws ObjectNotInitializedException {
+        if (mBuilder != null) {
+            mBuilder.setTag(tag);
+        } else {
+            throw genException();
+        }
         return this;
     }
 
@@ -57,11 +61,18 @@ public class OkCaptureRequestBuilder {
      * The Surface added must be one of the surfaces included in the most recent call to createCaptureSession(List,
      * CameraCaptureSession.StateCallback, Handler), when the request is given to the camera device.
      * @param outputTarget Surface to use as an output target for this request
+     * @throws ObjectNotInitializedException You should call init() before call this method otherwise
+     * it will throw a ObjectNotInitializedException
      * @see CaptureRequest.Builder#addTarget(Surface)
      */
     @Deprecated
-    public OkCaptureRequestBuilder addTarget(@NonNull Surface outputTarget) {
-        mBuilder.addTarget(outputTarget);
+    public OkCaptureRequestBuilder addTarget(@NonNull Surface outputTarget)
+            throws ObjectNotInitializedException {
+        if (mBuilder != null) {
+            mBuilder.addTarget(outputTarget);
+        } else {
+            throw genException();
+        }
         return this;
     }
 
@@ -70,45 +81,58 @@ public class OkCaptureRequestBuilder {
      * @param outputs  the surfaces included in the most recent call to createCaptureSession(List,
      *                CameraCaptureSession.StateCallback, Handler)
      * @param targetIndexArray which suface in outputs
+     * @throws ObjectNotInitializedException You should call init() before call this method otherwise
+     * it will throw a ObjectNotInitializedException
      */
-    public OkCaptureRequestBuilder addTarget(@NonNull List<Surface> outputs, @NonNull int[] targetIndexArray) {
+    public OkCaptureRequestBuilder addTarget(@NonNull List<Surface> outputs, @NonNull int[] targetIndexArray)
+            throws ObjectNotInitializedException {
         for (int aTargetIndexArray : targetIndexArray) {
             addTarget(outputs.get(aTargetIndexArray));
         }
         return this;
     }
 
-    public OkCaptureRequestBuilder 	removeTarget(@NonNull Surface outputTarget) {
-        mBuilder.removeTarget(outputTarget);
+    public OkCaptureRequestBuilder 	removeTarget(@NonNull Surface outputTarget)
+            throws ObjectNotInitializedException {
+        if (mBuilder != null) {
+            mBuilder.removeTarget(outputTarget);
+        } else {
+            throw genException();
+        }
         return this;
     }
 
     /**
      * Set a capture request field to a value. The field definitions can be found in CaptureRequest.
      * @param key which field definitions in {@link CaptureRequest}
+     * @throws ObjectNotInitializedException You should call init() before call this method otherwise
+     * it will throw a ObjectNotInitializedException
      */
-    public <T> OkCaptureRequestBuilder set(@NonNull CaptureRequest.Key<T> key, T value) {
-        mBuilder.set(key,value);
+    public <T> OkCaptureRequestBuilder set(@NonNull CaptureRequest.Key<T> key, T value)
+            throws ObjectNotInitializedException {
+        if (mBuilder != null) {
+            mBuilder.set(key,value);
+        } else {
+            throw genException();
+        }
         return this;
     }
 
     /**
      * Build a request using the current target Surfaces and settings.
      * @return CaptureRequest
+     * @throws ObjectNotInitializedException You should call init() before call this method otherwise
+     * it will throw a ObjectNotInitializedException
      */
-    public CaptureRequest build() {
-        return mBuilder.build();
+    public CaptureRequest build() throws ObjectNotInitializedException {
+        if (mBuilder != null) {
+            return mBuilder.build();
+        } else {
+            throw genException();
+        }
     }
 
-    public void clear() {
-
-    }
-
-    public void reset() {
-
-    }
-
-    public <T> T get(CaptureRequest.Key<T> key) {
-        return mBuilder.get(key);
+    private ObjectNotInitializedException genException() {
+        return  new ObjectNotInitializedException("You should call init() before call this method");
     }
 }

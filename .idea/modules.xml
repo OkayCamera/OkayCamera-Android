@@ -6,8 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/cameraapi2testdemo/cameraapi2testdemo.iml" filepath="$PROJECT_DIR$/cameraapi2testdemo/cameraapi2testdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/databindingdemo/databindingdemo.iml" filepath="$PROJECT_DIR$/databindingdemo/databindingdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/eventbusdemo/eventbusdemo.iml" filepath="$PROJECT_DIR$/eventbusdemo/eventbusdemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/okaycameraapplication/app.iml" filepath="$PROJECT_DIR$/okaycameraapplication/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/okaycameralibrary/okcameralibrary.iml" filepath="$PROJECT_DIR$/okaycameralibrary/okcameralibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okaycameraapplication/okaycameraapplication.iml" filepath="$PROJECT_DIR$/okaycameraapplication/okaycameraapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okaycameralibrary/okaycameralibrary.iml" filepath="$PROJECT_DIR$/okaycameralibrary/okaycameralibrary.iml" />
     </modules>
   </component>
 </project>

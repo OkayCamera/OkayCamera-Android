@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/OkayCamera-Android.iml" filepath="$PROJECT_DIR$/OkayCamera-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cameraapi2testdemo/cameraapi2testdemo.iml" filepath="$PROJECT_DIR$/cameraapi2testdemo/cameraapi2testdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/databindingdemo/databindingdemo.iml" filepath="$PROJECT_DIR$/databindingdemo/databindingdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eventbusdemo/eventbusdemo.iml" filepath="$PROJECT_DIR$/eventbusdemo/eventbusdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okaycameraapplication/okaycameraapplication.iml" filepath="$PROJECT_DIR$/okaycameraapplication/okaycameraapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okaycameralibrary/okaycameralibrary.iml" filepath="$PROJECT_DIR$/okaycameralibrary/okaycameralibrary.iml" />
+    </modules>
+  </component>
+</project>

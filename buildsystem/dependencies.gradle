@@ -7,7 +7,7 @@ allprojects {
 ext {
     //Android
     androidBuildToolsVersion = "26.0.2"
-    androidMinSdkVersion = 21
+    androidMinSdkVersion = 23
     androidTargetSdkVersion = 25
     androidCompileSdkVersion = 25
     androidApplicationId = 'com.okaycamera.okcamera'
@@ -19,11 +19,12 @@ ext {
     appcompat_version = '25.4.0'
     constraintLayout_version = '1.0.2'
     anko_version = '0.10.1'
-    enventbus_version = '3.0.0'
+    eventbus_version = '3.1.0'
+    eventbus_processor_version = eventbus_version
     rxJavaVersion = '2.1.0'
     daggerVersion = '2.8'
     butterKnifeVersion = '7.0.1'
-    recyclerViewVersion = '21.0.3'
+    recyclerViewVersion = '25.4.0'
     rxAndroidVersion = '2.0.1'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
@@ -39,7 +40,7 @@ ext {
     assertJVersion = '1.7.1'
     mockitoVersion = '2.2.15'
     dexmakerVersion = '1.0'
-    espressoVersion = '2.2'
+    espressoVersion = '3.0.1' // 会影响support的版本，所以要及时更新
     testingSupportLibVersion = '0.1'
     kotlinStdlibVersion =  '1.1.2-5'
     kotlinJunitVersion =  '1.0.6'
@@ -56,7 +57,8 @@ ext {
             // see more: https://github.com/Kotlin/anko
             anko:               "org.jetbrains.anko:anko:$anko_version",
             // see more: https://github.com/greenrobot/EventBus
-            enventbus:          "org.greenrobot:eventbus:$enventbus_version",
+            eventbus:          "org.greenrobot:eventbus:$eventbus_version",
+            eventbusProcessor: "org.greenrobot:eventbus-annotation-processor:$eventbus_processor_version",
             daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger:             "com.google.dagger:dagger:${daggerVersion}",
             butterKnife:        "com.jakewharton:butterknife:${butterKnifeVersion}",

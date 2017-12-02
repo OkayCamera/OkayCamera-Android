@@ -14,20 +14,15 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera.capture;
+package com.okaycamera.okcameralibrary.capture;
 
 // 传感器读出数据区域
-import static android.hardware.camera2.CaptureRequest.SCALER_CROP_REGION;
 // 每个像素的曝光时间
-import static android.hardware.camera2.CaptureRequest.SENSOR_EXPOSURE_TIME;
 // 从帧曝光开始到下一帧曝光开始的持续时间。
-import static android.hardware.camera2.CaptureRequest.SENSOR_FRAME_DURATION;
 // 在处理图像之前，应用于传感器的一系列增益量
-import static android.hardware.camera2.CaptureRequest.SENSOR_SENSITIVITY;
 // 在测试模式下，当SENSOR_TEST_PATTERN_MODE 为 SOLID_COLOR 时的测试像素[R, G_even, G_odd, B] 值
-import static android.hardware.camera2.CaptureRequest.SENSOR_TEST_PATTERN_DATA;
 // 当启用时，传感器发送一个测试模式，而不是从相机进行真正的曝光。
-import static android.hardware.camera2.CaptureRequest.SENSOR_TEST_PATTERN_MODE;
+
 
 public class SensorComponent {
 

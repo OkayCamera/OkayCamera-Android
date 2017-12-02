@@ -16,7 +16,13 @@
 
 package com.okaycamera.okcamera.core.VM;
 
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraDevice;
+import android.support.annotation.NonNull;
+
 import com.okaycamera.okcamera.core.MVVM;
 
 interface IViewModel extends MVVM.IViewModel {
+
+    void CreateCaptureSession(@NonNull CameraDevice device);
 }

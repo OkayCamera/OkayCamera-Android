@@ -14,11 +14,20 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera.capture;
-import static android.hardware.camera2.CaptureRequest.JPEG_GPS_LOCATION;
-import static android.hardware.camera2.CaptureRequest.JPEG_ORIENTATION;
-import static android.hardware.camera2.CaptureRequest.JPEG_QUALITY;
-import static android.hardware.camera2.CaptureRequest.JPEG_THUMBNAIL_QUALITY;
-import static android.hardware.camera2.CaptureRequest.JPEG_THUMBNAIL_SIZE;
-public class JPEGComponent {
+package com.okaycamera.okcameralibrary;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
+public class ExampleUnitTest {
+    @Test
+    public void addition_isCorrect() throws Exception {
+        assertEquals(4, 2 + 2);
+    }
 }

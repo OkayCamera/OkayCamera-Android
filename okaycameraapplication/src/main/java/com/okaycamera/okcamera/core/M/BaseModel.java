@@ -17,15 +17,13 @@
 package com.okaycamera.okcamera.core.M;
 
 import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.support.annotation.CallSuper;
 import android.view.Surface;
 
 import com.okaycamera.okcamera.core.MVVM;
-import com.okaycamera.okcamera.core.camera.framework.OkCaptureRequestBuilder;
+import com.okaycamera.okcameralibrary.framework.OkCaptureRequestBuilder;
 
 public abstract class BaseModel implements IModel{
     /**
@@ -50,7 +48,7 @@ public abstract class BaseModel implements IModel{
 
     public CaptureRequest buildPreviewRequest() throws CameraAccessException {
         CaptureRequest.Builder builder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-        OkCaptureRequestBuilder okBuilder = new OkCaptureRequestBuilder(builder);
+        OkCaptureRequestBuilder okBuilder = new OkCaptureRequestBuilder().init(builder);
         return okBuilder.addTarget(mPreviewSurface)
                 .build();
     }

@@ -88,8 +88,6 @@ class Main : BaseActivity() {
     override fun onResume() {
         super.onResume()
         setScreenBrightness(WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL)
-
-//        OkCameraManager.instance().sendMessage()
     }
 
     override fun onPause() {

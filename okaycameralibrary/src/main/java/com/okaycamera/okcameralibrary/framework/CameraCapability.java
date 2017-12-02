@@ -14,16 +14,9 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera.capture;
+package com.okaycamera.okcameralibrary.framework;
+
+public class CameraCapability {
 
 
-import android.hardware.camera2.CameraCharacteristics;
-
-import com.okaycamera.okcamera.core.camera.framework.OkCaptureRequestBuilder;
-
-public interface IComponent {
-    void setModeValue(int mode);
-    int getCurrentModeValue();
-    int[] getAvailableModeList(CameraCharacteristics characteristics);
-    OkCaptureRequestBuilder submit();
 }

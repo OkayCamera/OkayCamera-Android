@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.exception;
+package com.okaycamera.okcameralibrary.exception;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-public class ObjectNotInitializedException extends Exception {
+public class ObjectNotInitializedException extends RuntimeException {
     private ObjectNotInitializedException() {
         super();
     }

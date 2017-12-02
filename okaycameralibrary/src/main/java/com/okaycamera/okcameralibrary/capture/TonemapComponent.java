@@ -14,14 +14,14 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera.capture;
+package com.okaycamera.okcameralibrary.capture;
 
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.okaycamera.okcamera.core.camera.framework.OkCaptureRequestBuilder;
+import com.okaycamera.okcameralibrary.framework.OkCaptureRequestBuilder;
 
 //  当 TONEMAP_MODE 为 CONTRAST_CURVE时， 所使用的色调映射/对比度/Gamma曲线值。
 import static android.hardware.camera2.CaptureRequest.TONEMAP_CURVE;

@@ -93,7 +93,7 @@ dependencies {
     compile appDependencies.constraintLayout
     compile appDependencies.androidAnnotations
     compile appDependencies.anko // add Anko lib, should use part when method full 4k
-    compile appDependencies.enventbus
+    compile appDependencies.eventbus
     compile appDependencies.rxJava
 
     kapt 'com.android.databinding:compiler:2.3.2'
@@ -106,7 +106,7 @@ dependencies {
      *  your build might fail due to a dependency conflict. To resolve, update your dependency
      *  for espresso-core as follows:
      */
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestCompile appTestDependencies.uiautomator // Optional
@@ -118,4 +118,5 @@ dependencies {
     testCompile appTestDependencies.kotlinJunit
     testCompile appTestDependencies.kotlinMockito
     testCompile appTestDependencies.kluent
+    implementation project(':okaycameralibrary')
 }

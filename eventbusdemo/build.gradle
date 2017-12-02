@@ -58,10 +58,10 @@ dependencies {
     implementation appDependencies.appcompat
     implementation appDependencies.constraintLayout
     // 添加 eventBus 的依赖
-    implementation appDependencies.enventbus
-    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
+    implementation appDependencies.eventbus
+    annotationProcessor appDependencies.eventbusProcessor
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation appTestDependencies.junit
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

@@ -43,10 +43,13 @@ android {
 dependencies {
     def appDependencies = rootProject.ext.appDependencies
     def appTestDependencies = rootProject.ext.appTestDependencies
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //    implementation appDependencies.appcompat
+    // 添加 eventBus 的依赖
+    implementation appDependencies.eventbus
+    implementation appDependencies.androidAnnotations
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation appDependencies.appcompat
-    testImplementation 'junit:junit:4.12'
+    testImplementation appTestDependencies.junit
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

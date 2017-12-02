@@ -14,13 +14,13 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera.framework;
+package com.okaycamera.okcameralibrary.framework;
 
 import android.hardware.camera2.CaptureRequest;
 import android.support.annotation.NonNull;
 import android.view.Surface;
 
-import com.okaycamera.okcamera.core.exception.ObjectNotInitializedException;
+import com.okaycamera.okcameralibrary.exception.ObjectNotInitializedException;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class OkCaptureRequestBuilder {
      * @throws ObjectNotInitializedException You should call init() before call this method otherwise
      * it will throw a ObjectNotInitializedException
      */
-    public OkCaptureRequestBuilder 	setTag(@NonNull Object tag) throws ObjectNotInitializedException {
+    public OkCaptureRequestBuilder 	setTag(@NonNull Object tag) {
         if (mBuilder != null) {
             mBuilder.setTag(tag);
         } else {
@@ -108,14 +108,17 @@ public class OkCaptureRequestBuilder {
      * @throws ObjectNotInitializedException You should call init() before call this method otherwise
      * it will throw a ObjectNotInitializedException
      */
-    public <T> OkCaptureRequestBuilder set(@NonNull CaptureRequest.Key<T> key, T value)
-            throws ObjectNotInitializedException {
+    public <T> OkCaptureRequestBuilder set(@NonNull CaptureRequest.Key<T> key, T value) {
         if (mBuilder != null) {
             mBuilder.set(key,value);
         } else {
             throw genException();
         }
         return this;
+    }
+
+    public  <T> T get(@NonNull CaptureRequest.Key<T> key) {
+        return mBuilder.get(key);
     }
 
     /**

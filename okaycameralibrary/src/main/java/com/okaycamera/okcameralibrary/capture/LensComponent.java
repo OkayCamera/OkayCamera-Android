@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera.capture;
+package com.okaycamera.okcameralibrary.capture;
 
 import android.hardware.camera2.CaptureRequest;
 

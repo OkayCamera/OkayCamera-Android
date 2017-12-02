@@ -16,7 +16,14 @@
 
 package com.okaycamera.okcamera.module.capture;
 
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraDevice;
+
 import com.okaycamera.okcamera.core.VM.BaseViewModel;
 
 public class CaptureVM extends BaseViewModel {
+    @Override
+    public void CreateCaptureSession(CameraDevice device) {
+
+    }
 }

@@ -14,8 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.module.common
+package com.okaycamera.okcameralibrary.capture;
 
-class CommonCameraManager {
-
+public class JPEGComponent {
 }

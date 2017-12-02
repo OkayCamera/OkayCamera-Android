@@ -15,4 +15,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.okcameralibrary" />
+    package="com.okaycamera.okcameralibrary" >
+
+    <uses-permission android:name="android.permission.CAMERA" />
+</manifest>

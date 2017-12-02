@@ -14,4 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.camera.framework
+package com.okaycamera.okcameralibrary.capture;
+
+public class CaptureRequestFactory {
+}

@@ -16,7 +16,7 @@
 
 package com.okaycamera.okcamera;
 
-import com.okaycamera.okcamera.core.util.CrashHandler;
+import com.okaycamera.okcamera.util.os.CrashHandler;
 import com.okaycamera.okcamera.manager.FunManager;
 
 public class OkCameraApplication extends android.app.Application {

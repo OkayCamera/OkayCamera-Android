@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.okaycamera.okcamera.core.util
+package com.okaycamera.okcamera.util.os
 
 import android.annotation.SuppressLint
 import android.content.Context

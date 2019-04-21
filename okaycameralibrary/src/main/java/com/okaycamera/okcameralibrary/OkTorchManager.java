@@ -55,6 +55,13 @@ public class OkTorchManager {
         mCameraManager.unregisterTorchCallback(mTorchCallBack);
     }
 
+
+
+    // ================================= some messages =============================================
+
+    /**
+     * Torch Availability Message
+     */
     public class TorchAvailabilityMessage {
         public String cameraId;
 
@@ -63,6 +70,9 @@ public class OkTorchManager {
         }
     }
 
+    /**
+     * The torch mode changed Event bus message
+     */
     public class TorchModeChangeMessage {
         public String cameraId;
         public boolean enabled;
